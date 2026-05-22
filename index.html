@@ -429,6 +429,8 @@
         border-color: #6c3fc7;
         color: #a99cf7;
       }
+
+      /* Form — 6 columns: name | phone | remark | amount | date | add */
       .form-card {
         background: #1a1830;
         border: 1px solid #2e2a50;
@@ -438,8 +440,8 @@
       }
       .form-row {
         display: grid;
-        grid-template-columns: 1fr 1fr 0.8fr 0.7fr auto;
-        gap: 10px;
+        grid-template-columns: 1.2fr 0.9fr 0.9fr 0.75fr 0.7fr auto;
+        gap: 8px;
         align-items: end;
       }
       .field {
@@ -462,7 +464,7 @@
         border: 1px solid #2e2a50;
         background: #12101f;
         color: #e8e6f0;
-        font-size: 13.5px;
+        font-size: 13px;
         font-family: "Inter", sans-serif;
         width: 100%;
         transition:
@@ -480,6 +482,11 @@
       .field input[type="date"]::-webkit-calendar-picker-indicator {
         filter: invert(0.6);
         cursor: pointer;
+      }
+      /* Phone field accent */
+      .field input#phoneInput:focus {
+        border-color: #4ecba0;
+        box-shadow: 0 0 0 3px rgba(78, 203, 160, 0.15);
       }
       .ac-dropdown {
         position: absolute;
@@ -521,18 +528,18 @@
       }
       .btn-add {
         height: 42px;
-        padding: 0 20px;
+        padding: 0 16px;
         border-radius: 10px;
         border: none;
         background: linear-gradient(135deg, #4c3fce, #6c3fc7);
         color: #fff;
-        font-size: 13.5px;
+        font-size: 13px;
         font-weight: 600;
         font-family: "Inter", sans-serif;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
         white-space: nowrap;
         box-shadow: 0 4px 14px rgba(76, 63, 206, 0.4);
         transition: all 0.2s;
@@ -775,7 +782,7 @@
         table-layout: fixed;
       }
       .pt-table th {
-        padding: 11px 15px;
+        padding: 11px 14px;
         text-align: left;
         font-size: 10px;
         font-weight: 600;
@@ -786,7 +793,7 @@
         background: #12101f;
       }
       .pt-table td {
-        padding: 11px 15px;
+        padding: 11px 14px;
         color: #c8c4e8;
         border-bottom: 1px solid #1e1c38;
         vertical-align: middle;
@@ -852,6 +859,21 @@
       .date-cell {
         font-size: 11.5px;
         color: #5a5680;
+      }
+      /* Phone tag in table */
+      .phone-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(78, 203, 160, 0.1);
+        color: #4ecba0;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 1px 7px;
+        border-radius: 99px;
+        border: 1px solid rgba(78, 203, 160, 0.25);
+        margin-left: 5px;
+        vertical-align: middle;
       }
       .remark-tag {
         display: inline-block;
@@ -1559,7 +1581,6 @@
         opacity: 0.45;
         cursor: not-allowed;
       }
-      /* Sheet detection info banner */
       .sheet-detect-badge {
         display: inline-flex;
         align-items: center;
@@ -1715,11 +1736,13 @@
           </button>
         </div>
       </div>
+
+      <!-- Entry form: Name | Phone | Remark | Amount | Date | Add -->
       <div class="form-card">
         <div class="form-row">
           <div class="field">
-            <label for="nameInput">Name / vendor</label
-            ><input
+            <label for="nameInput">Name / vendor</label>
+            <input
               id="nameInput"
               type="text"
               placeholder="Select a sheet first…"
@@ -1733,12 +1756,28 @@
             ></div>
           </div>
           <div class="field">
+            <label for="phoneInput"
+              >Phone
+              <span style="color: #4a4670; font-weight: 400"
+                >(optional)</span
+              ></label
+            >
+            <input
+              id="phoneInput"
+              type="tel"
+              placeholder="e.g. 9876543210"
+              autocomplete="off"
+              disabled
+            />
+          </div>
+          <div class="field">
             <label for="remarkInput"
               >Remark
               <span style="color: #4a4670; font-weight: 400"
                 >(optional)</span
               ></label
-            ><input
+            >
+            <input
               id="remarkInput"
               type="text"
               placeholder="e.g. Labour…"
@@ -1747,8 +1786,8 @@
             />
           </div>
           <div class="field">
-            <label for="amtInput">Amount (₹)</label
-            ><input
+            <label for="amtInput">Amount (₹)</label>
+            <input
               id="amtInput"
               type="number"
               placeholder="0.00"
@@ -1759,14 +1798,15 @@
             />
           </div>
           <div class="field">
-            <label for="dateInput">Date</label
-            ><input id="dateInput" type="date" disabled />
+            <label for="dateInput">Date</label>
+            <input id="dateInput" type="date" disabled />
           </div>
           <button class="btn-add" id="addBtn" onclick="addEntry()" disabled>
             ＋ Add
           </button>
         </div>
       </div>
+
       <div class="toolbar">
         <div class="toolbar-row1">
           <div class="view-toggle">
@@ -1787,7 +1827,7 @@
               class="search-box-input"
               id="searchInput"
               type="text"
-              placeholder="Search vendor, remark, amount…"
+              placeholder="Search vendor, phone, remark…"
               autocomplete="off"
             />
             <button
@@ -1874,8 +1914,8 @@
             <div class="export-option-text">
               <div class="export-option-title">Per-vendor sheets</div>
               <div class="export-option-desc">
-                All Entries + Summary (with hyperlinks) + one sheet per vendor
-                with ← Back button
+                All Entries + Summary (hyperlinks) + one sheet per vendor with ←
+                Back button
               </div>
             </div>
           </div>
@@ -2010,7 +2050,7 @@
         </div>
       </div>
     </div>
-    <!-- Edit -->
+    <!-- Edit — now includes Phone -->
     <div class="modal-overlay hidden" id="editModal">
       <div class="modal">
         <div class="modal-title">
@@ -2022,7 +2062,24 @@
           ><input id="editName" type="text" autocomplete="off" />
         </div>
         <div class="modal-field">
-          <label>Remark <span style="color: #4a4670">(optional)</span></label
+          <label
+            >Phone
+            <span style="color: #4a4670; font-weight: 400"
+              >(optional)</span
+            ></label
+          ><input
+            id="editPhone"
+            type="tel"
+            placeholder="e.g. 9876543210"
+            autocomplete="off"
+          />
+        </div>
+        <div class="modal-field">
+          <label
+            >Remark
+            <span style="color: #4a4670; font-weight: 400"
+              >(optional)</span
+            ></label
           ><input
             id="editRemark"
             type="text"
@@ -2052,7 +2109,7 @@
         </div>
         <p class="import-info">
           Upload a .xlsx from this tracker.<br />Columns:
-          <code>Name / Vendor</code>, <code>Remark</code>,
+          <code>Name / Vendor</code>, <code>Phone</code>, <code>Remark</code>,
           <code>Amount (INR)</code>, <code>Date Added</code>
         </p>
         <div
@@ -2073,8 +2130,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Paytm — updated info text -->
+    <!-- Paytm -->
     <div class="modal-overlay hidden" id="paytmModal">
       <div class="modal wide">
         <div class="modal-title">
@@ -2088,19 +2144,15 @@
         </div>
         <div id="paytmStep1">
           <p class="import-info">
-            Upload your Paytm Excel —
-            <strong style="color: #4ecba0">no need to rearrange sheets.</strong
-            ><br />
-            Automatically finds the transaction sheet (skips Summary). Works
-            with any sheet order.
+            Upload your Paytm Excel — no need to rearrange sheets. Automatically
+            finds the transaction sheet.
           </p>
           <div
             class="import-zone paytm-zone"
             onclick="document.getElementById('paytmFile').click()"
           >
             <span class="import-zone-icon">📂</span>Click to choose your Paytm
-            Excel
-            <input
+            Excel<input
               type="file"
               id="paytmFile"
               accept=".xlsx,.xls,.csv"
@@ -2150,7 +2202,7 @@
                     />
                   </th>
                   <th>Date</th>
-                  <th>Description (Name)</th>
+                  <th>Description</th>
                   <th>Amount</th>
                   <th>Type</th>
                   <th style="color: #e0a84a">Remark</th>
@@ -2256,6 +2308,7 @@
         return src.filter(function (e) {
           return (
             e.name.toLowerCase().indexOf(q) !== -1 ||
+            (e.phone || "").indexOf(q) !== -1 ||
             (e.remark || "").toLowerCase().indexOf(q) !== -1 ||
             (e.amount + "").indexOf(q) !== -1 ||
             isoToDisplay(e.date).indexOf(q) !== -1
@@ -2271,6 +2324,7 @@
           map[key].items.push({
             id: e.id,
             name: e.name,
+            phone: e.phone || "",
             remark: e.remark || "",
             amount: e.amount,
             date: e.date,
@@ -2282,481 +2336,924 @@
         });
       }
 
-      /* ══════════════════════════════
-   PAYTM SHEET AUTO-DETECTION
-   
-   Strategy (in priority order):
-   1. Sheet whose name contains "payment", "transaction", "passbook", "history", "statement"
-   2. Sheet whose name does NOT contain "summary"
-   3. The sheet with the most data rows
-   4. Falls back to first sheet
-   
-   This means "Passbook Payment History" is found immediately by rule 1,
-   and "Summary" is skipped by rule 2.
-══════════════════════════════ */
-      function pickPaytmSheet(wb) {
-        var names = wb.SheetNames;
-        if (names.length === 1) return { name: names[0], reason: "only sheet" };
-
-        /* Rule 1: name matches transaction keywords */
-        var txKeywords = [
-          "payment",
-          "transaction",
-          "passbook",
-          "history",
-          "statement",
-          "detail",
-          "ledger",
-          "pass book",
-        ];
-        for (var i = 0; i < names.length; i++) {
-          var nl = names[i].toLowerCase();
-          for (var k = 0; k < txKeywords.length; k++) {
-            if (nl.indexOf(txKeywords[k]) !== -1) {
-              return {
-                name: names[i],
-                reason:
-                  'sheet name "' + names[i] + '" matches transaction keywords',
-              };
-            }
+      /* ── Fetch includes phone ── */
+      function fetchAllEntries(sheetId) {
+        return new Promise(function (resolve, reject) {
+          var allRows = [],
+            offset = 0;
+          function fetchPage() {
+            var url =
+              "entries?sheet_id=eq." +
+              sheetId +
+              "&select=id,name,phone,remark,amount,date&order=created_at.asc&limit=" +
+              PAGE_SIZE +
+              "&offset=" +
+              offset;
+            fetch(SUPABASE_URL + "/rest/v1/" + url, {
+              headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: "Bearer " + SUPABASE_KEY,
+                "Content-Type": "application/json",
+                Range: offset + "-" + (offset + PAGE_SIZE - 1),
+                "Range-Unit": "items",
+                Prefer: "count=exact",
+              },
+            })
+              .then(function (r) {
+                var cr = r.headers.get("Content-Range") || "";
+                return r.json().then(function (d) {
+                  return { data: d, cr: cr };
+                });
+              })
+              .then(function (res) {
+                var page = Array.isArray(res.data) ? res.data : [];
+                allRows = allRows.concat(page);
+                var tb = document.getElementById("tableBody");
+                if (tb)
+                  tb.innerHTML =
+                    '<tr><td colspan="7"><div class="table-loading">⏳ Loading…<div class="loading-progress">' +
+                    allRows.length +
+                    " loaded…</div></div></td></tr>";
+                var total = null;
+                var m = res.cr.match(/\/(\d+)$/);
+                if (m) total = parseInt(m[1]);
+                if (
+                  page.length === PAGE_SIZE &&
+                  (total === null ? true : allRows.length < total)
+                ) {
+                  offset += PAGE_SIZE;
+                  fetchPage();
+                } else resolve(allRows);
+              })
+              .catch(reject);
           }
-        }
+          fetchPage();
+        });
+      }
 
-        /* Rule 2: first sheet that is NOT summary */
-        var summaryKeywords = ["summary", "summ", "overview", "total"];
-        var nonSummary = names.filter(function (n) {
-          var nl = n.toLowerCase();
-          return !summaryKeywords.some(function (k) {
-            return nl.indexOf(k) !== -1;
+      (function () {
+        var d = new Date();
+        document.getElementById("dateInput").value = d
+          .toISOString()
+          .slice(0, 10);
+        document.getElementById("heroDate").innerHTML = d
+          .toLocaleDateString("en-IN", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })
+          .replace(",", "<br>");
+        loadSheets();
+      })();
+
+      function applyDateFilter() {
+        dateFrom = document.getElementById("filterFrom").value;
+        dateTo = document.getElementById("filterTo").value;
+        document.querySelectorAll(".preset-btn").forEach(function (b) {
+          b.classList.remove("active");
+        });
+        renderTable();
+        updateStats();
+        updateToolbarState();
+      }
+      function clearDateFilter() {
+        dateFrom = "";
+        dateTo = "";
+        document.getElementById("filterFrom").value = "";
+        document.getElementById("filterTo").value = "";
+        document.querySelectorAll(".preset-btn").forEach(function (b) {
+          b.classList.remove("active");
+        });
+        renderTable();
+        updateStats();
+        updateToolbarState();
+      }
+      function applyPreset(p) {
+        var now = new Date(),
+          to = now.toISOString().slice(0, 10),
+          from;
+        if (p === "today") {
+          from = to;
+        } else if (p === "week") {
+          var day = now.getDay(),
+            diff = now.getDate() - day + (day === 0 ? -6 : 1);
+          from = new Date(new Date().setDate(diff)).toISOString().slice(0, 10);
+        } else if (p === "month") {
+          from =
+            now.getFullYear() +
+            "-" +
+            String(now.getMonth() + 1).padStart(2, "0") +
+            "-01";
+        } else if (p === "last30") {
+          var d30 = new Date();
+          d30.setDate(d30.getDate() - 30);
+          from = d30.toISOString().slice(0, 10);
+        } else if (p === "last3m") {
+          var d3 = new Date();
+          d3.setMonth(d3.getMonth() - 3);
+          from = d3.toISOString().slice(0, 10);
+        } else if (p === "year") {
+          from = now.getFullYear() + "-01-01";
+        }
+        dateFrom = from;
+        dateTo = to;
+        document.getElementById("filterFrom").value = from;
+        document.getElementById("filterTo").value = to;
+        document.querySelectorAll(".preset-btn").forEach(function (b) {
+          b.classList.remove("active");
+        });
+        var el = document.getElementById(
+          "preset" + p.charAt(0).toUpperCase() + p.slice(1),
+        );
+        if (el) el.classList.add("active");
+        renderTable();
+        updateStats();
+        updateToolbarState();
+      }
+
+      function loadSheets() {
+        sbFetch("sheets?select=id,title,updated_at&order=updated_at.desc")
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (d) {
+            sheets = Array.isArray(d) ? d : [];
+            renderSheetsList();
+            setSyncStatus("ok");
+          })
+          .catch(function () {
+            setSyncStatus("error");
+            document.getElementById("sheetsList").innerHTML =
+              '<div style="color:#f08080;font-size:13px;">⚠ Could not connect</div>';
           });
-        });
-        if (nonSummary.length > 0) {
-          return {
-            name: nonSummary[0],
-            reason: 'skipped summary sheet, using "' + nonSummary[0] + '"',
-          };
-        }
-
-        /* Rule 3: sheet with most rows of data */
-        var best = names[0],
-          bestRows = 0;
-        names.forEach(function (n) {
-          var ws = wb.Sheets[n];
-          var ref = ws["!ref"];
-          if (!ref) return;
-          var range = XLSX.utils.decode_range(ref);
-          var rows = range.e.r - range.s.r;
-          if (rows > bestRows) {
-            bestRows = rows;
-            best = n;
-          }
-        });
-        return { name: best, reason: 'most data rows: "' + best + '"' };
       }
-
-      /* ── Paytm parsing helpers ── */
-      function parsePaytmAmount(raw) {
-        if (typeof raw === "number") {
-          return { value: Math.abs(raw), debit: raw < 0 };
-        }
-        var s = (raw + "")
-          .trim()
-          .replace(/[\u20B9\u00A0,\s]/g, "")
-          .replace(/Rs\.?/gi, "");
-        if (!s) return null;
-        var sign = 1;
-        if (s.charAt(0) === "-") {
-          sign = -1;
-          s = s.slice(1);
-        } else if (s.charAt(0) === "+") {
-          s = s.slice(1);
-        }
-        if (/dr$/i.test(s)) {
-          sign = -1;
-          s = s.replace(/dr$/i, "");
-        }
-        if (/cr$/i.test(s)) {
-          sign = 1;
-          s = s.replace(/cr$/i, "");
-        }
-        var n = parseFloat(s);
-        if (isNaN(n) || n === 0) return null;
-        return { value: Math.abs(n), debit: sign < 0 };
-      }
-      function parsePaytmDate(raw) {
-        if (!raw) return new Date().toISOString().slice(0, 10);
-        if (typeof raw === "number") {
-          var d = new Date(Math.round((raw - 25569) * 86400 * 1000));
-          return d.toISOString().slice(0, 10);
-        }
-        var s = (raw + "").trim();
-        var m = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
-        if (m)
-          return (
-            m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0")
-          );
-        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-        return new Date().toISOString().slice(0, 10);
-      }
-      function findColIdx(hdrs, kws) {
-        for (var i = 0; i < hdrs.length; i++) {
-          var h = (hdrs[i] + "").toLowerCase().trim();
-          for (var j = 0; j < kws.length; j++) {
-            if (h.indexOf(kws[j]) !== -1) return i;
-          }
-        }
-        return -1;
-      }
-
-      function openPaytm() {
-        if (!currentSheetId) {
-          alert("Select a sheet first.");
+      function renderSheetsList() {
+        var el = document.getElementById("sheetsList");
+        if (!sheets.length) {
+          el.innerHTML = '<div class="no-sheets">No sheets yet</div>';
           return;
         }
-        resetPaytmStep();
-        document.getElementById("paytmModal").classList.remove("hidden");
-      }
-      function closePaytm() {
-        document.getElementById("paytmModal").classList.add("hidden");
-        document.getElementById("paytmFile").value = "";
-        paytmRows = [];
-      }
-      document
-        .getElementById("paytmModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closePaytm();
-        });
-      function resetPaytmStep() {
-        document.getElementById("paytmStep1").style.display = "block";
-        document.getElementById("paytmStep2").style.display = "none";
-        document.getElementById("paytmUploadResult").textContent = "";
-        document.getElementById("paytmFile").value = "";
-        document.getElementById("sheetDetectBadge").style.display = "none";
-        paytmRows = [];
-        paytmFilter = "all";
-        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
-          document.getElementById(id).classList.remove("on");
-        });
-        document.getElementById("fbAll").classList.add("on");
-      }
-
-      function handlePaytmUpload(input) {
-        var file = input.files[0];
-        if (!file) return;
-        var res = document.getElementById("paytmUploadResult");
-        res.className = "import-result";
-        res.textContent = "Reading file…";
-        document.getElementById("sheetDetectBadge").style.display = "none";
-
-        var reader = new FileReader();
-        reader.onload = function (ev) {
-          try {
-            var wb = XLSX.read(ev.target.result, {
-              type: "array",
-              cellText: false,
-              cellDates: false,
-            });
-
-            /* ── Auto-detect the correct sheet ── */
-            var detected = pickPaytmSheet(wb);
-            var ws = wb.Sheets[detected.name];
-
-            /* Show which sheet was picked */
-            document.getElementById("sheetDetectText").textContent =
-              'Using sheet "' + detected.name + '" — ' + detected.reason;
-            document.getElementById("sheetDetectBadge").style.display = "block";
-
-            var rows = XLSX.utils.sheet_to_json(ws, {
-              header: 1,
-              defval: "",
-              raw: true,
-            });
-            var hRow = -1;
-            for (var r = 0; r < Math.min(20, rows.length); r++) {
-              var j = (rows[r] || []).join("|").toLowerCase();
-              if (
-                (j.indexOf("transaction details") !== -1 ||
-                  j.indexOf("description") !== -1 ||
-                  j.indexOf("particulars") !== -1) &&
-                j.indexOf("amount") !== -1
-              ) {
-                hRow = r;
-                break;
-              }
-              if (j.indexOf("amount") !== -1 && j.indexOf("date") !== -1) {
-                hRow = r;
-                break;
-              }
-            }
-            if (hRow === -1) {
-              /* fallback: row with most non-empty cells */
-              var mx = 0;
-              for (var r2 = 0; r2 < Math.min(15, rows.length); r2++) {
-                var ct = rows[r2].filter(function (x) {
-                  return (x + "").trim() !== "";
-                }).length;
-                if (ct > mx) {
-                  mx = ct;
-                  hRow = r2;
-                }
-              }
-            }
-
-            var hdrs = rows[hRow] || [];
-            var cDate = findColIdx(hdrs, ["date"]);
-            var cDesc = findColIdx(hdrs, [
-              "transaction details",
-              "description",
-              "particulars",
-              "narration",
-              "remarks",
-              "remark",
-              "note",
-            ]);
-            var cOther = findColIdx(hdrs, [
-              "other transaction",
-              "upi id",
-              "a/c no",
-              "account no",
-            ]);
-            var cAmt = findColIdx(hdrs, ["amount", "debit", "credit", "amt"]);
-            var cRemark = findColIdx(hdrs, [
-              "tags",
-              "tag",
-              "comment",
-              "category",
-              "remarks",
-              "remark",
-              "note",
-            ]);
-
-            /* if cDesc and cRemark resolved to same col, unset remark */
-            if (cRemark === cDesc) cRemark = -1;
-
-            if (cAmt === -1) {
-              res.className = "import-result err";
-              res.textContent =
-                '⚠ Could not find Amount column in "' + detected.name + '".';
-              return;
-            }
-
-            paytmRows = [];
-            for (var i = hRow + 1; i < rows.length; i++) {
-              var row = rows[i];
-              if (!row || row.join("").toString().trim() === "") continue;
-              var parsed = parsePaytmAmount(row[cAmt]);
-              if (!parsed) continue;
-              var desc =
-                cDesc !== -1 ? (row[cDesc] + "").trim() : "Transaction " + i;
-              if (!desc) desc = "Transaction " + i;
-              var remark = cRemark !== -1 ? (row[cRemark] + "").trim() : "";
-              paytmRows.push({
-                date:
-                  cDate !== -1
-                    ? parsePaytmDate(row[cDate])
-                    : new Date().toISOString().slice(0, 10),
-                desc: desc,
-                other: cOther !== -1 ? (row[cOther] + "").trim() : "",
-                amount: parsed.value,
-                debit: parsed.debit,
-                remark: remark,
-                selected: true,
-              });
-            }
-
-            if (!paytmRows.length) {
-              res.className = "import-result err";
-              res.textContent =
-                '⚠ No valid transactions found in "' + detected.name + '".';
-              return;
-            }
-            res.textContent =
-              "✓ Found " +
-              paytmRows.length +
-              ' transactions in "' +
-              detected.name +
-              '"';
-            document.getElementById("paytmStep1").style.display = "none";
-            document.getElementById("paytmStep2").style.display = "block";
-            renderPaytmPreview();
-          } catch (err) {
-            res.className = "import-result err";
-            res.textContent = "Error: " + err.message;
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-
-      function filterPaytm(f) {
-        paytmFilter = f;
-        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
-          document.getElementById(id).classList.remove("on");
-        });
-        document
-          .getElementById(
-            f === "all" ? "fbAll" : f === "debit" ? "fbDebit" : "fbCredit",
-          )
-          .classList.add("on");
-        renderPaytmPreview();
-      }
-      function renderPaytmPreview() {
-        var tb = document.getElementById("previewBody");
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
-        });
-        document.getElementById("selCount").textContent =
-          paytmRows.filter(function (r) {
-            return r.selected;
-          }).length + " selected";
-        document.getElementById("previewInfo").textContent =
-          "Showing " + vis.length + " of " + paytmRows.length;
-        tb.innerHTML = vis
-          .map(function (r) {
-            var oi = paytmRows.indexOf(r);
-            var desc = r.desc.length > 36 ? r.desc.slice(0, 36) + "…" : r.desc;
-            var tt = r.debit
-              ? '<span style="color:#f08080;font-size:11px;font-weight:600;">↑ Debit</span>'
-              : '<span style="color:#4ecba0;font-size:11px;font-weight:600;">↓ Credit</span>';
-            var rmk = r.remark
-              ? '<span class="remark-tag">' + r.remark.slice(0, 18) + "</span>"
-              : '<span style="color:#3a3760;">—</span>';
+        el.innerHTML = sheets
+          .map(function (s) {
+            var a = s.id === currentSheetId ? " active" : "";
+            var safe = s.title.replace(/"/g, "&quot;");
             return (
-              '<tr><td class="check-col"><input type="checkbox" ' +
-              (r.selected ? "checked" : "") +
-              ' onchange="paytmRows[' +
-              oi +
-              '].selected=this.checked;updateSelCount()" /></td><td>' +
-              isoToDisplay(r.date) +
-              '</td><td title="' +
-              r.desc +
-              '">' +
-              desc +
-              '</td><td style="font-weight:600;' +
-              (r.debit ? "color:#f08080" : "color:#4ecba0") +
-              ';">' +
-              fmt(r.amount) +
-              "</td><td>" +
-              tt +
-              "</td><td>" +
-              rmk +
-              "</td></tr>"
+              '<div class="sheet-chip' +
+              a +
+              '" onclick="selectSheet(\'' +
+              s.id +
+              "','" +
+              safe +
+              '\')"><span class="sheet-chip-name">' +
+              s.title +
+              '</span><span class="sheet-chip-del" onclick="event.stopPropagation();deleteSheet(\'' +
+              s.id +
+              '\')" title="Delete (admin only)">🔐</span></div>'
             );
           })
           .join("");
-        var allSel =
-          vis.length > 0 &&
-          vis.every(function (r) {
-            return r.selected;
-          });
-        document.getElementById("selectAll").checked = allSel;
-        document.getElementById("selectAll").indeterminate =
-          !allSel &&
-          vis.some(function (r) {
-            return r.selected;
+      }
+      function openNewSheet() {
+        document.getElementById("newSheetName").value = "";
+        document.getElementById("newSheetModal").classList.remove("hidden");
+        setTimeout(function () {
+          document.getElementById("newSheetName").focus();
+        }, 100);
+      }
+      function closeNewSheet() {
+        document.getElementById("newSheetModal").classList.add("hidden");
+      }
+      function createSheet() {
+        var name = document.getElementById("newSheetName").value.trim();
+        if (!name) return;
+        setSyncStatus("syncing");
+        sbFetch("sheets", {
+          method: "POST",
+          body: JSON.stringify({ title: name }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (d) {
+            var s = Array.isArray(d) ? d[0] : d;
+            sheets.unshift(s);
+            closeNewSheet();
+            selectSheet(s.id, s.title);
+            setSyncStatus("ok");
+          })
+          .catch(function () {
+            setSyncStatus("error");
           });
       }
-      function updateSelCount() {
-        document.getElementById("selCount").textContent =
-          paytmRows.filter(function (r) {
-            return r.selected;
-          }).length + " selected";
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
+      function selectSheet(id, title) {
+        currentSheetId = id;
+        document.getElementById("sheetTitle").value = title;
+        document.getElementById("sheetTitle").removeAttribute("readonly");
+        document.getElementById("titleSaveBtn").disabled = false;
+        [
+          "nameInput",
+          "phoneInput",
+          "remarkInput",
+          "amtInput",
+          "dateInput",
+        ].forEach(function (x) {
+          document.getElementById(x).disabled = false;
         });
-        var as =
-          vis.length > 0 &&
-          vis.every(function (r) {
-            return r.selected;
-          });
-        document.getElementById("selectAll").checked = as;
-        document.getElementById("selectAll").indeterminate =
-          !as &&
-          vis.some(function (r) {
-            return r.selected;
+        document.getElementById("nameInput").placeholder = "e.g. AWS, FedEx…";
+        document.getElementById("addBtn").disabled = false;
+        renderSheetsList();
+        loadEntries(id);
+      }
+      function saveCurrentSheet() {
+        if (!currentSheetId) return;
+        var title = document.getElementById("sheetTitle").value.trim();
+        if (!title) return;
+        setSyncStatus("syncing");
+        sbFetch("sheets?id=eq." + currentSheetId, {
+          method: "PATCH",
+          body: JSON.stringify({
+            title: title,
+            updated_at: new Date().toISOString(),
+          }),
+        })
+          .then(function () {
+            var s = sheets.find(function (x) {
+              return x.id === currentSheetId;
+            });
+            if (s) s.title = title;
+            renderSheetsList();
+            setSyncStatus("ok");
+            flashBar();
+          })
+          .catch(function () {
+            setSyncStatus("error");
           });
       }
-      function toggleSelectAll(cb) {
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
+      function deleteSheet(id) {
+        var sheet = sheets.find(function (s) {
+          return s.id === id;
         });
-        vis.forEach(function (r) {
-          r.selected = cb.checked;
-        });
-        renderPaytmPreview();
+        pendingDeleteId = id;
+        document.getElementById("deleteSheetName").textContent =
+          '"' + (sheet ? sheet.title : "this sheet") + '"';
+        document.getElementById("deletePassword").value = "";
+        document.getElementById("pwError").style.display = "none";
+        document.getElementById("deleteModal").classList.remove("hidden");
+        setTimeout(function () {
+          document.getElementById("deletePassword").focus();
+        }, 120);
       }
-      function importSelectedPaytm() {
-        var toImport = paytmRows.filter(function (r) {
-          return r.selected;
-        });
-        if (!toImport.length) {
-          alert("Select at least one.");
+      function closeDeleteModal() {
+        document.getElementById("deleteModal").classList.add("hidden");
+        document.getElementById("deletePassword").value = "";
+        document.getElementById("pwError").style.display = "none";
+        pendingDeleteId = null;
+      }
+      function togglePwVisibility() {
+        var inp = document.getElementById("deletePassword");
+        inp.type = inp.type === "password" ? "text" : "password";
+      }
+      async function confirmDelete() {
+        var pw = document.getElementById("deletePassword").value;
+        var hash = await sha256(pw);
+        if (hash !== ADMIN_HASH) {
+          var inp = document.getElementById("deletePassword");
+          inp.classList.add("shake");
+          setTimeout(function () {
+            inp.classList.remove("shake");
+          }, 400);
+          document.getElementById("pwError").style.display = "block";
+          inp.value = "";
+          inp.focus();
           return;
         }
-        var toInsert = toImport.map(function (r) {
-          return {
-            sheet_id: currentSheetId,
-            name: r.desc.slice(0, 120),
-            remark: r.remark || null,
-            amount: r.amount,
-            date: r.date,
-          };
-        });
-        var res = document.getElementById("paytmUploadResult");
-        document.getElementById("paytmStep2").style.display = "none";
-        document.getElementById("paytmStep1").style.display = "block";
-        res.className = "import-result";
-        res.textContent = "Saving…";
+        var id = pendingDeleteId;
+        closeDeleteModal();
         setSyncStatus("syncing");
-        var BATCH = 500,
-          batches = [],
-          allIns = [];
-        for (var b = 0; b < toInsert.length; b += BATCH)
-          batches.push(toInsert.slice(b, b + BATCH));
-        function nb(idx) {
-          if (idx >= batches.length) {
-            entries = entries.concat(allIns);
+        sbFetch("sheets?id=eq." + id, { method: "DELETE" })
+          .then(function () {
+            sheets = sheets.filter(function (s) {
+              return s.id !== id;
+            });
+            if (currentSheetId === id) {
+              currentSheetId = null;
+              entries = [];
+              document.getElementById("sheetTitle").value = "";
+              document
+                .getElementById("sheetTitle")
+                .setAttribute("readonly", "");
+              document.getElementById("titleSaveBtn").disabled = true;
+              [
+                "nameInput",
+                "phoneInput",
+                "remarkInput",
+                "amtInput",
+                "dateInput",
+              ].forEach(function (x) {
+                document.getElementById(x).disabled = true;
+              });
+              document.getElementById("addBtn").disabled = true;
+            }
+            renderSheetsList();
+            updateStats();
+            renderTable();
+            setSyncStatus("ok");
+          })
+          .catch(function () {
+            setSyncStatus("error");
+          });
+      }
+      document
+        .getElementById("deleteModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeDeleteModal();
+        });
+      document
+        .getElementById("deletePassword")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") confirmDelete();
+        });
+
+      function loadEntries(id) {
+        document.getElementById("tableBody").innerHTML =
+          '<tr><td colspan="7"><div class="table-loading">⏳ Loading…<div class="loading-progress">Fetching…</div></div></td></tr>';
+        setSyncStatus("syncing");
+        fetchAllEntries(id)
+          .then(function (all) {
+            entries = all;
+            renderTable();
+            updateStats();
+            setSyncStatus("ok");
+            updateToolbarState();
+          })
+          .catch(function () {
+            setSyncStatus("error");
+          });
+      }
+
+      /* ── Add entry — includes phone ── */
+      function addEntry() {
+        if (!currentSheetId) return;
+        var ni = document.getElementById("nameInput"),
+          pi = document.getElementById("phoneInput"),
+          ri = document.getElementById("remarkInput"),
+          ai = document.getElementById("amtInput"),
+          di = document.getElementById("dateInput");
+        var name = ni.value.trim(),
+          phone = pi.value.trim(),
+          remark = ri.value.trim(),
+          amount = parseFloat(ai.value),
+          date = di.value;
+        if (!name || isReserved(name)) {
+          ni.focus();
+          return;
+        }
+        if (isNaN(amount) || amount <= 0) {
+          ai.focus();
+          return;
+        }
+        if (!date) date = new Date().toISOString().slice(0, 10);
+        setSyncStatus("syncing");
+        sbFetch("entries", {
+          method: "POST",
+          body: JSON.stringify({
+            sheet_id: currentSheetId,
+            name: name,
+            phone: phone || null,
+            remark: remark || null,
+            amount: amount,
+            date: date,
+          }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (d) {
+            var e = Array.isArray(d) ? d[0] : d;
+            entries.push(e);
+            ni.value = "";
+            pi.value = "";
+            ri.value = "";
+            ai.value = "";
+            di.value = new Date().toISOString().slice(0, 10);
+            ni.focus();
+            hideDropdown();
             renderTable();
             updateStats();
             flashBar();
             setSyncStatus("ok");
             updateSheetTs();
-            res.textContent = "✓ Imported " + allIns.length + " transactions!";
-            paytmRows = [];
-            return;
-          }
-          sbFetch("entries", {
-            method: "POST",
-            body: JSON.stringify(batches[idx]),
           })
-            .then(function (r) {
-              return r.json();
-            })
-            .then(function (d) {
-              allIns = allIns.concat(Array.isArray(d) ? d : []);
-              nb(idx + 1);
-            })
-            .catch(function () {
-              res.className = "import-result err";
-              res.textContent = "Server error.";
-              setSyncStatus("error");
-            });
-        }
-        nb(0);
+          .catch(function () {
+            setSyncStatus("error");
+          });
       }
 
-      /* ── Export ── */
+      function delEntry(eid, idx) {
+        setSyncStatus("syncing");
+        sbFetch("entries?id=eq." + eid, { method: "DELETE" })
+          .then(function () {
+            entries.splice(idx, 1);
+            renderTable();
+            updateStats();
+            setSyncStatus("ok");
+            updateSheetTs();
+          })
+          .catch(function () {
+            setSyncStatus("error");
+          });
+      }
+      function updateSheetTs() {
+        if (!currentSheetId) return;
+        sbFetch("sheets?id=eq." + currentSheetId, {
+          method: "PATCH",
+          body: JSON.stringify({ updated_at: new Date().toISOString() }),
+        }).catch(function () {});
+      }
+      function clearAll() {
+        if (!entries.length || !currentSheetId) return;
+        if (!confirm("Delete all entries in this sheet?")) return;
+        setSyncStatus("syncing");
+        sbFetch("entries?sheet_id=eq." + currentSheetId, { method: "DELETE" })
+          .then(function () {
+            entries = [];
+            openGroups = {};
+            renderTable();
+            updateStats();
+            setSyncStatus("ok");
+            updateSheetTs();
+          })
+          .catch(function () {
+            setSyncStatus("error");
+          });
+      }
+
+      function openEdit(idx) {
+        editIdx = idx;
+        editEntryId = entries[idx].id;
+        document.getElementById("editName").value = entries[idx].name;
+        document.getElementById("editPhone").value = entries[idx].phone || "";
+        document.getElementById("editRemark").value = entries[idx].remark || "";
+        document.getElementById("editAmt").value = entries[idx].amount;
+        document.getElementById("editDate").value = entries[idx].date || "";
+        document.getElementById("editModal").classList.remove("hidden");
+        setTimeout(function () {
+          document.getElementById("editName").focus();
+        }, 100);
+      }
+      function closeEdit() {
+        document.getElementById("editModal").classList.add("hidden");
+        editIdx = -1;
+        editEntryId = null;
+      }
+      function saveEdit() {
+        if (editIdx < 0 || !editEntryId) return;
+        var name = document.getElementById("editName").value.trim();
+        var phone = document.getElementById("editPhone").value.trim();
+        var remark = document.getElementById("editRemark").value.trim();
+        var amount = parseFloat(document.getElementById("editAmt").value);
+        var date = document.getElementById("editDate").value;
+        if (!name || isNaN(amount) || amount <= 0 || isReserved(name)) return;
+        setSyncStatus("syncing");
+        sbFetch("entries?id=eq." + editEntryId, {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: name,
+            phone: phone || null,
+            remark: remark || null,
+            amount: amount,
+            date: date,
+          }),
+        })
+          .then(function () {
+            entries[editIdx] = Object.assign(entries[editIdx], {
+              name: name,
+              phone: phone || "",
+              remark: remark || "",
+              amount: amount,
+              date: date,
+            });
+            closeEdit();
+            renderTable();
+            updateStats();
+            flashBar();
+            setSyncStatus("ok");
+            updateSheetTs();
+          })
+          .catch(function () {
+            setSyncStatus("error");
+          });
+      }
+      document
+        .getElementById("editModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeEdit();
+        });
+      document
+        .getElementById("editName")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") document.getElementById("editPhone").focus();
+        });
+      document
+        .getElementById("editPhone")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") document.getElementById("editRemark").focus();
+        });
+      document
+        .getElementById("editRemark")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") document.getElementById("editAmt").focus();
+        });
+      document
+        .getElementById("editAmt")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") saveEdit();
+        });
+      document
+        .getElementById("newSheetModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeNewSheet();
+        });
+      document
+        .getElementById("newSheetName")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") createSheet();
+        });
+
+      function fmt(n) {
+        return (
+          "₹" +
+          Number(n).toLocaleString("en-IN", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        );
+      }
+      function isoToDisplay(iso) {
+        if (!iso) return "—";
+        var p = iso.split("-");
+        return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
+      }
+      function flashBar() {
+        var b = document.getElementById("toastBar");
+        b.classList.remove("show");
+        void b.offsetWidth;
+        b.classList.add("show");
+        setTimeout(function () {
+          b.classList.remove("show");
+        }, 2200);
+      }
+      function highlight(text, q) {
+        if (!q) return text;
+        var idx = text.toLowerCase().indexOf(q.toLowerCase());
+        if (idx === -1) return text;
+        return (
+          text.slice(0, idx) +
+          '<span class="hl">' +
+          text.slice(idx, idx + q.length) +
+          "</span>" +
+          text.slice(idx + q.length)
+        );
+      }
+      function getKnownNames() {
+        var seen = {},
+          names = [];
+        entries.forEach(function (e) {
+          var k = e.name.toLowerCase().trim();
+          if (!seen[k]) {
+            seen[k] = true;
+            names.push(e.name);
+          }
+        });
+        return names;
+      }
+      function getLastAmt(name) {
+        var key = name.toLowerCase().trim();
+        for (var i = entries.length - 1; i >= 0; i--) {
+          if (entries[i].name.toLowerCase().trim() === key)
+            return entries[i].amount;
+        }
+        return null;
+      }
+      /* Also recall last phone for a vendor */
+      function getLastPhone(name) {
+        var key = name.toLowerCase().trim();
+        for (var i = entries.length - 1; i >= 0; i--) {
+          if (entries[i].name.toLowerCase().trim() === key && entries[i].phone)
+            return entries[i].phone;
+        }
+        return null;
+      }
+      function updateStats() {
+        var vis = getVisibleEntries();
+        var tot = vis.reduce(function (s, e) {
+          return s + e.amount;
+        }, 0);
+        var isF = !!(dateFrom || dateTo || searchQuery);
+        document.getElementById("statCount").textContent =
+          getGroups(vis).length;
+        document.getElementById("statTotal").textContent = vis.length
+          ? fmt(tot)
+          : "₹0";
+        document.getElementById("statEntries").textContent =
+          vis.length + (isF ? " / " + entries.length : "");
+        document.getElementById("totalLabel").textContent = isF
+          ? "Visible Total"
+          : "Total";
+        document.getElementById("entriesLabel").textContent = isF
+          ? "Visible / All"
+          : "Entries";
+      }
+
+      function hideDropdown() {
+        document.getElementById("acDropdown").style.display = "none";
+        acIndex = -1;
+      }
+      function showDropdown(matches) {
+        var dd = document.getElementById("acDropdown");
+        if (!matches.length) {
+          hideDropdown();
+          return;
+        }
+        dd.innerHTML = matches
+          .map(function (name, i) {
+            var last = getLastAmt(name);
+            var safe = name.replace(/'/g, "\\'");
+            return (
+              '<div class="ac-item" data-name="' +
+              name +
+              '" onmousedown="pickName(\'' +
+              safe +
+              '\')"><span class="ac-item-name">' +
+              name +
+              "</span>" +
+              (last
+                ? '<span class="ac-item-meta">last: ' + fmt(last) + "</span>"
+                : "") +
+              "</div>" +
+              (i < matches.length - 1 ? '<div class="ac-sep"></div>' : "")
+            );
+          })
+          .join("");
+        dd.style.display = "block";
+        acIndex = -1;
+      }
+      function pickName(name) {
+        document.getElementById("nameInput").value = name;
+        var last = getLastAmt(name);
+        if (last) document.getElementById("amtInput").value = last;
+        var lastPhone = getLastPhone(name);
+        if (lastPhone) document.getElementById("phoneInput").value = lastPhone;
+        hideDropdown();
+        document.getElementById("phoneInput").focus();
+      }
+      function highlightAcItem() {
+        document.querySelectorAll(".ac-item").forEach(function (el, i) {
+          el.classList.toggle("ac-active", i === acIndex);
+        });
+      }
+      var nameInput = document.getElementById("nameInput");
+      nameInput.addEventListener("input", function () {
+        var val = this.value.trim().toLowerCase();
+        if (!val) {
+          hideDropdown();
+          return;
+        }
+        var m = getKnownNames().filter(function (n) {
+          return n.toLowerCase().indexOf(val) === 0;
+        });
+        if (!m.length)
+          m = getKnownNames().filter(function (n) {
+            return n.toLowerCase().indexOf(val) !== -1;
+          });
+        showDropdown(m.slice(0, 6));
+      });
+      nameInput.addEventListener("keydown", function (e) {
+        var dd = document.getElementById("acDropdown");
+        var items = dd.querySelectorAll(".ac-item");
+        if (dd.style.display !== "none" && items.length) {
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            acIndex = Math.min(acIndex + 1, items.length - 1);
+            highlightAcItem();
+            return;
+          }
+          if (e.key === "ArrowUp") {
+            e.preventDefault();
+            acIndex = Math.max(acIndex - 1, -1);
+            highlightAcItem();
+            return;
+          }
+          if (e.key === "Enter" && acIndex >= 0) {
+            e.preventDefault();
+            pickName(items[acIndex].getAttribute("data-name"));
+            return;
+          }
+          if (e.key === "Escape") {
+            hideDropdown();
+            return;
+          }
+        }
+        if (e.key === "Enter") document.getElementById("phoneInput").focus();
+      });
+      nameInput.addEventListener("blur", function () {
+        setTimeout(hideDropdown, 150);
+      });
+      document
+        .getElementById("amtInput")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") addEntry();
+        });
+
+      function setView(v) {
+        view = v;
+        document
+          .getElementById("btnGrouped")
+          .classList.toggle("active", v === "grouped");
+        document
+          .getElementById("btnAll")
+          .classList.toggle("active", v === "all");
+        renderTable();
+      }
+      function toggleGroup(key) {
+        openGroups[key] = !openGroups[key];
+        renderTable();
+      }
+      var searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", function () {
+        searchQuery = this.value.trim();
+        document
+          .getElementById("searchClear")
+          .classList.toggle("visible", searchQuery.length > 0);
+        renderTable();
+        updateStats();
+        updateToolbarState();
+      });
+      function clearSearch() {
+        searchInput.value = "";
+        searchQuery = "";
+        document.getElementById("searchClear").classList.remove("visible");
+        renderTable();
+        updateStats();
+        updateToolbarState();
+        searchInput.focus();
+      }
+
+      /* ── Render table — includes Phone column ── */
+      function renderTable() {
+        var head = document.getElementById("tableHead"),
+          tb = document.getElementById("tableBody");
+        var src = getVisibleEntries();
+        if (!currentSheetId) {
+          head.innerHTML = "";
+          tb.innerHTML =
+            '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-txt">Create or select a sheet</div></div></td></tr>';
+          return;
+        }
+        if (!entries.length) {
+          head.innerHTML = "";
+          tb.innerHTML =
+            '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-txt">No entries yet</div></div></td></tr>';
+          return;
+        }
+        if (!src.length) {
+          head.innerHTML = "";
+          tb.innerHTML =
+            '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">' +
+            (searchQuery ? "🔍" : "📅") +
+            '</div><div class="empty-txt">' +
+            (searchQuery
+              ? 'No results for "' + searchQuery + '"'
+              : "No entries in this date range.") +
+            "</div></div></td></tr>";
+          return;
+        }
+
+        if (searchQuery || view === "all") {
+          head.innerHTML =
+            '<tr><th style="width:32px">#</th><th>Vendor</th><th style="width:110px">Phone</th><th style="width:90px">Remark</th><th style="width:105px">Amount</th><th style="width:85px">Date</th><th style="width:64px"></th></tr>';
+          tb.innerHTML = src
+            .map(function (e, ri) {
+              var i = entries.indexOf(e);
+              var phoneTd = e.phone
+                ? '<span class="phone-tag">📞 ' +
+                  highlight(e.phone, searchQuery) +
+                  "</span>"
+                : '<span style="color:#3a3760;font-size:11px;">—</span>';
+              var rmkTd = e.remark
+                ? '<span class="remark-tag">' +
+                  highlight(e.remark, searchQuery) +
+                  "</span>"
+                : '<span style="color:#3a3760;font-size:11px;">—</span>';
+              return (
+                '<tr class="data-row row-new"><td><span class="badge">' +
+                (ri + 1) +
+                "</span></td>" +
+                '<td style="font-weight:600;color:#d4cfff;">' +
+                highlight(e.name, searchQuery) +
+                "</td>" +
+                "<td>" +
+                phoneTd +
+                "</td>" +
+                "<td>" +
+                rmkTd +
+                "</td>" +
+                '<td class="amt-cell">' +
+                fmt(e.amount) +
+                "</td>" +
+                '<td class="date-cell">' +
+                isoToDisplay(e.date) +
+                "</td>" +
+                '<td><div class="action-btns"><button class="mod-btn" onclick="openEdit(' +
+                i +
+                ')">✏️</button><button class="del-btn" onclick="delEntry(\'' +
+                e.id +
+                "'," +
+                i +
+                ')">✕</button></div></td></tr>'
+              );
+            })
+            .join("");
+          return;
+        }
+
+        /* Grouped view */
+        var groups = getGroups(src);
+        head.innerHTML =
+          '<tr><th style="width:34px"></th><th>Vendor</th><th style="width:110px">Phone</th><th>Total</th><th style="width:75px">Payments</th><th style="width:34px"></th></tr>';
+        var html = "";
+        groups.forEach(function (g) {
+          var key = g.name.toLowerCase().trim();
+          var isOpen = !!openGroups[key];
+          var safeKey = key.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+          /* Show phone from most recent item that has one */
+          var phone = g.items.reduce(function (p, item) {
+            return p || (item.phone ? item.phone : "");
+          }, "");
+          var phoneTd = phone
+            ? '<span class="phone-tag" style="font-size:10px;">📞 ' +
+              phone +
+              "</span>"
+            : '<span style="color:#3a3760;font-size:11px;">—</span>';
+          html +=
+            '<tr class="group-header row-new" onclick="toggleGroup(\'' +
+            safeKey +
+            "')\">";
+          html +=
+            '<td><span class="chevron ' +
+            (isOpen ? "open" : "") +
+            '">›</span></td>';
+          html +=
+            '<td><span class="group-name">' +
+            g.name +
+            (g.items.length > 1
+              ? '<span class="badge-new">' + g.items.length + "×</span>"
+              : "") +
+            "</span></td>";
+          html += "<td>" + phoneTd + "</td>";
+          html += '<td class="group-total">' + fmt(g.total) + "</td>";
+          html +=
+            '<td style="color:#5a5680;font-size:12px;">' +
+            g.items.length +
+            "</td><td></td></tr>";
+          if (isOpen) {
+            g.items.forEach(function (item) {
+              var rmkTag = item.remark
+                ? '<span class="remark-tag">' + item.remark + "</span>"
+                : "";
+              var phTag = item.phone
+                ? '<span class="phone-tag" style="font-size:10px;margin-left:0;">📞 ' +
+                  item.phone +
+                  "</span>"
+                : "";
+              html +=
+                '<tr class="data-row sub-row row-new">' +
+                "<td></td>" +
+                '<td style="color:#c8c4e8;">↳ ' +
+                isoToDisplay(item.date) +
+                rmkTag +
+                phTag +
+                "</td>" +
+                "<td></td>" +
+                '<td class="sub-amt">' +
+                fmt(item.amount) +
+                "</td>" +
+                "<td></td>" +
+                '<td><div class="action-btns"><button class="mod-btn" onclick="event.stopPropagation();openEdit(' +
+                item.idx +
+                ')">✏️</button><button class="del-btn" onclick="event.stopPropagation();delEntry(\'' +
+                item.id +
+                "'," +
+                item.idx +
+                ')">✕</button></div></td></tr>';
+            });
+          }
+        });
+        tb.innerHTML = html;
+      }
+
+      /* ── Export — includes Phone in all sheets ── */
       function sanitizeName(raw) {
         return (
           (raw + "")
@@ -2895,6 +3392,7 @@
         }
         pl.innerHTML = chips;
       }
+
       function makeAllEntriesSheet(data, title, suffix) {
         var rows = [
           [title + suffix],
@@ -2907,12 +3405,20 @@
               }),
           ],
           [],
-          ["#", "Name / Vendor", "Remark", "Amount (INR)", "Date Added"],
+          [
+            "#",
+            "Name / Vendor",
+            "Phone",
+            "Remark",
+            "Amount (INR)",
+            "Date Added",
+          ],
         ];
         data.forEach(function (e, i) {
           rows.push([
             i + 1,
             e.name,
+            e.phone || "",
             e.remark || "",
             e.amount,
             isoToDisplay(e.date),
@@ -2923,6 +3429,7 @@
           "",
           "Grand Total",
           "",
+          "",
           data.reduce(function (s, e) {
             return s + e.amount;
           }, 0),
@@ -2931,36 +3438,41 @@
         var ws = XLSX.utils.aoa_to_sheet(rows);
         ws["!cols"] = [
           { wch: 5 },
-          { wch: 32 },
+          { wch: 28 },
+          { wch: 14 },
           { wch: 16 },
           { wch: 16 },
           { wch: 14 },
         ];
-        ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }];
+        ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }];
         return ws;
       }
       function makeSummarySheet(data, title, suffix, groups, lookupFn) {
         var rows = [
           [title + " — Summary" + suffix],
           [],
-          ["Vendor", "Payments", "Total Amount (INR)"],
+          ["Vendor", "Phone", "Payments", "Total Amount (INR)"],
         ];
         var linkRows = [];
         groups.forEach(function (g, gi) {
-          rows.push([g.name, g.items.length, g.total]);
+          var phone = g.items.reduce(function (p, item) {
+            return p || (item.phone ? item.phone : "");
+          }, "");
+          rows.push([g.name, phone, g.items.length, g.total]);
           linkRows.push({ row: 3 + gi, name: g.name });
         });
         rows.push([]);
         rows.push([
           "Grand Total",
+          "",
           data.length,
           data.reduce(function (s, e) {
             return s + e.amount;
           }, 0),
         ]);
         var ws = XLSX.utils.aoa_to_sheet(rows);
-        ws["!cols"] = [{ wch: 32 }, { wch: 12 }, { wch: 20 }];
-        ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }];
+        ws["!cols"] = [{ wch: 28 }, { wch: 14 }, { wch: 12 }, { wch: 20 }];
+        ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } }];
         linkRows.forEach(function (lr) {
           var ca = XLSX.utils.encode_cell({ r: lr.row, c: 0 });
           var sn = lookupFn(lr.name);
@@ -2974,46 +3486,53 @@
         var total = items.reduce(function (s, e) {
           return s + e.amount;
         }, 0);
+        var phone = items.reduce(function (p, e) {
+          return p || (e.phone ? e.phone : "");
+        }, "");
         var rows = [
-          [vendorName, "", "", "", ""],
+          [vendorName, "", "", "", "", ""],
           [
             "Total: " +
               items.length +
               " payments — ₹" +
-              total.toLocaleString("en-IN"),
+              total.toLocaleString("en-IN") +
+              (phone ? " | 📞 " + phone : ""),
+            "",
             "",
             "",
             "",
             "",
           ],
-          ["", "", "", "", "← Back to Summary"],
+          ["", "", "", "", "", "← Back to Summary"],
           [],
-          ["#", "Name / Vendor", "Remark", "Amount (INR)", "Date"],
+          ["#", "Name / Vendor", "Phone", "Remark", "Amount (INR)", "Date"],
         ];
         items.forEach(function (e, i) {
           rows.push([
             i + 1,
             e.name,
+            e.phone || "",
             e.remark || "",
             e.amount,
             isoToDisplay(e.date),
           ]);
         });
         rows.push([]);
-        rows.push(["", "", "Total", total, ""]);
+        rows.push(["", "", "", "Total", total, ""]);
         var ws = XLSX.utils.aoa_to_sheet(rows);
         ws["!cols"] = [
           { wch: 5 },
-          { wch: 28 },
-          { wch: 18 },
+          { wch: 24 },
+          { wch: 14 },
+          { wch: 16 },
           { wch: 16 },
           { wch: 18 },
         ];
         ws["!merges"] = [
-          { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
-          { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
+          { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } },
+          { s: { r: 1, c: 0 }, e: { r: 1, c: 5 } },
         ];
-        var bc = XLSX.utils.encode_cell({ r: 2, c: 4 });
+        var bc = XLSX.utils.encode_cell({ r: 2, c: 5 });
         if (ws[bc]) {
           ws[bc].l = { Target: "#'" + summarySheetName + "'!A1" };
           ws[bc].s = {
@@ -3022,6 +3541,7 @@
         }
         return ws;
       }
+
       async function doExport() {
         if (exportRunning) return;
         var src = getVisibleEntries();
@@ -3153,9 +3673,7 @@
                       " — Sheet " +
                       (gi + 1) +
                       " of " +
-                      batch.length +
-                      " — " +
-                      batch[gi].name.slice(0, 28),
+                      batch.length,
                   );
                   await yieldToUI();
                 }
@@ -3233,14 +3751,16 @@
             'Search: "' + searchQuery + '" — ' + src.length + " results",
           );
         lines.push("");
-        lines.push("#\tVendor\tRemark\tAmount\tDate");
-        lines.push("─".repeat(64));
+        lines.push("#\tVendor\tPhone\tRemark\tAmount\tDate");
+        lines.push("─".repeat(70));
         src.forEach(function (e, i) {
           lines.push(
             i +
               1 +
               "\t" +
               e.name +
+              "\t" +
+              (e.phone || "") +
               "\t" +
               (e.remark || "") +
               "\t" +
@@ -3249,11 +3769,11 @@
               isoToDisplay(e.date),
           );
         });
-        lines.push("─".repeat(64));
+        lines.push("─".repeat(70));
         var total = src.reduce(function (s, e) {
           return s + e.amount;
         }, 0);
-        lines.push("\tTotal\t\t" + fmt(total));
+        lines.push("\tTotal\t\t\t" + fmt(total));
         navigator.clipboard
           .writeText(lines.join("\n"))
           .then(function () {
@@ -3271,7 +3791,6 @@
           });
       }
 
-      /* ── Helpers ── */
       function showToast(msg) {
         var t = document.getElementById("toastNotify");
         t.textContent = msg;
@@ -3299,840 +3818,8 @@
           badge.style.display = "none";
         }
       }
-      function fetchAllEntries(sheetId) {
-        return new Promise(function (resolve, reject) {
-          var allRows = [],
-            offset = 0;
-          function fetchPage() {
-            var url =
-              "entries?sheet_id=eq." +
-              sheetId +
-              "&select=id,name,remark,amount,date&order=created_at.asc&limit=" +
-              PAGE_SIZE +
-              "&offset=" +
-              offset;
-            fetch(SUPABASE_URL + "/rest/v1/" + url, {
-              headers: {
-                apikey: SUPABASE_KEY,
-                Authorization: "Bearer " + SUPABASE_KEY,
-                "Content-Type": "application/json",
-                Range: offset + "-" + (offset + PAGE_SIZE - 1),
-                "Range-Unit": "items",
-                Prefer: "count=exact",
-              },
-            })
-              .then(function (r) {
-                var cr = r.headers.get("Content-Range") || "";
-                return r.json().then(function (d) {
-                  return { data: d, cr: cr };
-                });
-              })
-              .then(function (res) {
-                var page = Array.isArray(res.data) ? res.data : [];
-                allRows = allRows.concat(page);
-                var tb = document.getElementById("tableBody");
-                if (tb)
-                  tb.innerHTML =
-                    '<tr><td colspan="6"><div class="table-loading">⏳ Loading…<div class="loading-progress">' +
-                    allRows.length +
-                    " loaded…</div></div></td></tr>";
-                var total = null;
-                var m = res.cr.match(/\/(\d+)$/);
-                if (m) total = parseInt(m[1]);
-                if (
-                  page.length === PAGE_SIZE &&
-                  (total === null ? true : allRows.length < total)
-                ) {
-                  offset += PAGE_SIZE;
-                  fetchPage();
-                } else resolve(allRows);
-              })
-              .catch(reject);
-          }
-          fetchPage();
-        });
-      }
-      (function () {
-        var d = new Date();
-        document.getElementById("dateInput").value = d
-          .toISOString()
-          .slice(0, 10);
-        document.getElementById("heroDate").innerHTML = d
-          .toLocaleDateString("en-IN", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })
-          .replace(",", "<br>");
-        loadSheets();
-      })();
-      function applyDateFilter() {
-        dateFrom = document.getElementById("filterFrom").value;
-        dateTo = document.getElementById("filterTo").value;
-        document.querySelectorAll(".preset-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-        renderTable();
-        updateStats();
-        updateToolbarState();
-      }
-      function clearDateFilter() {
-        dateFrom = "";
-        dateTo = "";
-        document.getElementById("filterFrom").value = "";
-        document.getElementById("filterTo").value = "";
-        document.querySelectorAll(".preset-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-        renderTable();
-        updateStats();
-        updateToolbarState();
-      }
-      function applyPreset(p) {
-        var now = new Date(),
-          to = now.toISOString().slice(0, 10),
-          from;
-        if (p === "today") {
-          from = to;
-        } else if (p === "week") {
-          var day = now.getDay(),
-            diff = now.getDate() - day + (day === 0 ? -6 : 1);
-          from = new Date(new Date().setDate(diff)).toISOString().slice(0, 10);
-        } else if (p === "month") {
-          from =
-            now.getFullYear() +
-            "-" +
-            String(now.getMonth() + 1).padStart(2, "0") +
-            "-01";
-        } else if (p === "last30") {
-          var d30 = new Date();
-          d30.setDate(d30.getDate() - 30);
-          from = d30.toISOString().slice(0, 10);
-        } else if (p === "last3m") {
-          var d3 = new Date();
-          d3.setMonth(d3.getMonth() - 3);
-          from = d3.toISOString().slice(0, 10);
-        } else if (p === "year") {
-          from = now.getFullYear() + "-01-01";
-        }
-        dateFrom = from;
-        dateTo = to;
-        document.getElementById("filterFrom").value = from;
-        document.getElementById("filterTo").value = to;
-        document.querySelectorAll(".preset-btn").forEach(function (b) {
-          b.classList.remove("active");
-        });
-        var el = document.getElementById(
-          "preset" + p.charAt(0).toUpperCase() + p.slice(1),
-        );
-        if (el) el.classList.add("active");
-        renderTable();
-        updateStats();
-        updateToolbarState();
-      }
-      function loadSheets() {
-        sbFetch("sheets?select=id,title,updated_at&order=updated_at.desc")
-          .then(function (r) {
-            return r.json();
-          })
-          .then(function (d) {
-            sheets = Array.isArray(d) ? d : [];
-            renderSheetsList();
-            setSyncStatus("ok");
-          })
-          .catch(function () {
-            setSyncStatus("error");
-            document.getElementById("sheetsList").innerHTML =
-              '<div style="color:#f08080;font-size:13px;">⚠ Could not connect</div>';
-          });
-      }
-      function renderSheetsList() {
-        var el = document.getElementById("sheetsList");
-        if (!sheets.length) {
-          el.innerHTML = '<div class="no-sheets">No sheets yet</div>';
-          return;
-        }
-        el.innerHTML = sheets
-          .map(function (s) {
-            var a = s.id === currentSheetId ? " active" : "";
-            var safe = s.title.replace(/"/g, "&quot;");
-            return (
-              '<div class="sheet-chip' +
-              a +
-              '" onclick="selectSheet(\'' +
-              s.id +
-              "','" +
-              safe +
-              '\')"><span class="sheet-chip-name">' +
-              s.title +
-              '</span><span class="sheet-chip-del" onclick="event.stopPropagation();deleteSheet(\'' +
-              s.id +
-              '\')" title="Delete (admin only)">🔐</span></div>'
-            );
-          })
-          .join("");
-      }
-      function openNewSheet() {
-        document.getElementById("newSheetName").value = "";
-        document.getElementById("newSheetModal").classList.remove("hidden");
-        setTimeout(function () {
-          document.getElementById("newSheetName").focus();
-        }, 100);
-      }
-      function closeNewSheet() {
-        document.getElementById("newSheetModal").classList.add("hidden");
-      }
-      function createSheet() {
-        var name = document.getElementById("newSheetName").value.trim();
-        if (!name) return;
-        setSyncStatus("syncing");
-        sbFetch("sheets", {
-          method: "POST",
-          body: JSON.stringify({ title: name }),
-        })
-          .then(function (r) {
-            return r.json();
-          })
-          .then(function (d) {
-            var s = Array.isArray(d) ? d[0] : d;
-            sheets.unshift(s);
-            closeNewSheet();
-            selectSheet(s.id, s.title);
-            setSyncStatus("ok");
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function selectSheet(id, title) {
-        currentSheetId = id;
-        document.getElementById("sheetTitle").value = title;
-        document.getElementById("sheetTitle").removeAttribute("readonly");
-        document.getElementById("titleSaveBtn").disabled = false;
-        ["nameInput", "remarkInput", "amtInput", "dateInput"].forEach(
-          function (x) {
-            document.getElementById(x).disabled = false;
-          },
-        );
-        document.getElementById("nameInput").placeholder = "e.g. AWS, FedEx…";
-        document.getElementById("addBtn").disabled = false;
-        renderSheetsList();
-        loadEntries(id);
-      }
-      function saveCurrentSheet() {
-        if (!currentSheetId) return;
-        var title = document.getElementById("sheetTitle").value.trim();
-        if (!title) return;
-        setSyncStatus("syncing");
-        sbFetch("sheets?id=eq." + currentSheetId, {
-          method: "PATCH",
-          body: JSON.stringify({
-            title: title,
-            updated_at: new Date().toISOString(),
-          }),
-        })
-          .then(function () {
-            var s = sheets.find(function (x) {
-              return x.id === currentSheetId;
-            });
-            if (s) s.title = title;
-            renderSheetsList();
-            setSyncStatus("ok");
-            flashBar();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function deleteSheet(id) {
-        var sheet = sheets.find(function (s) {
-          return s.id === id;
-        });
-        pendingDeleteId = id;
-        document.getElementById("deleteSheetName").textContent =
-          '"' + (sheet ? sheet.title : "this sheet") + '"';
-        document.getElementById("deletePassword").value = "";
-        document.getElementById("pwError").style.display = "none";
-        document.getElementById("deleteModal").classList.remove("hidden");
-        setTimeout(function () {
-          document.getElementById("deletePassword").focus();
-        }, 120);
-      }
-      function closeDeleteModal() {
-        document.getElementById("deleteModal").classList.add("hidden");
-        document.getElementById("deletePassword").value = "";
-        document.getElementById("pwError").style.display = "none";
-        pendingDeleteId = null;
-      }
-      function togglePwVisibility() {
-        var inp = document.getElementById("deletePassword");
-        inp.type = inp.type === "password" ? "text" : "password";
-      }
-      async function confirmDelete() {
-        var pw = document.getElementById("deletePassword").value;
-        var hash = await sha256(pw);
-        if (hash !== ADMIN_HASH) {
-          var inp = document.getElementById("deletePassword");
-          inp.classList.add("shake");
-          setTimeout(function () {
-            inp.classList.remove("shake");
-          }, 400);
-          document.getElementById("pwError").style.display = "block";
-          inp.value = "";
-          inp.focus();
-          return;
-        }
-        var id = pendingDeleteId;
-        closeDeleteModal();
-        setSyncStatus("syncing");
-        sbFetch("sheets?id=eq." + id, { method: "DELETE" })
-          .then(function () {
-            sheets = sheets.filter(function (s) {
-              return s.id !== id;
-            });
-            if (currentSheetId === id) {
-              currentSheetId = null;
-              entries = [];
-              document.getElementById("sheetTitle").value = "";
-              document
-                .getElementById("sheetTitle")
-                .setAttribute("readonly", "");
-              document.getElementById("titleSaveBtn").disabled = true;
-              ["nameInput", "remarkInput", "amtInput", "dateInput"].forEach(
-                function (x) {
-                  document.getElementById(x).disabled = true;
-                },
-              );
-              document.getElementById("addBtn").disabled = true;
-            }
-            renderSheetsList();
-            updateStats();
-            renderTable();
-            setSyncStatus("ok");
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      document
-        .getElementById("deleteModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeDeleteModal();
-        });
-      document
-        .getElementById("deletePassword")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") confirmDelete();
-        });
-      function loadEntries(id) {
-        document.getElementById("tableBody").innerHTML =
-          '<tr><td colspan="6"><div class="table-loading">⏳ Loading…<div class="loading-progress">Fetching…</div></div></td></tr>';
-        setSyncStatus("syncing");
-        fetchAllEntries(id)
-          .then(function (all) {
-            entries = all;
-            renderTable();
-            updateStats();
-            setSyncStatus("ok");
-            updateToolbarState();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function addEntry() {
-        if (!currentSheetId) return;
-        var ni = document.getElementById("nameInput"),
-          ri = document.getElementById("remarkInput"),
-          ai = document.getElementById("amtInput"),
-          di = document.getElementById("dateInput");
-        var name = ni.value.trim(),
-          remark = ri.value.trim(),
-          amount = parseFloat(ai.value),
-          date = di.value;
-        if (!name || isReserved(name)) {
-          ni.focus();
-          return;
-        }
-        if (isNaN(amount) || amount <= 0) {
-          ai.focus();
-          return;
-        }
-        if (!date) date = new Date().toISOString().slice(0, 10);
-        setSyncStatus("syncing");
-        sbFetch("entries", {
-          method: "POST",
-          body: JSON.stringify({
-            sheet_id: currentSheetId,
-            name: name,
-            remark: remark || null,
-            amount: amount,
-            date: date,
-          }),
-        })
-          .then(function (r) {
-            return r.json();
-          })
-          .then(function (d) {
-            var e = Array.isArray(d) ? d[0] : d;
-            entries.push(e);
-            ni.value = "";
-            ri.value = "";
-            ai.value = "";
-            di.value = new Date().toISOString().slice(0, 10);
-            ni.focus();
-            hideDropdown();
-            renderTable();
-            updateStats();
-            flashBar();
-            setSyncStatus("ok");
-            updateSheetTs();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function delEntry(eid, idx) {
-        setSyncStatus("syncing");
-        sbFetch("entries?id=eq." + eid, { method: "DELETE" })
-          .then(function () {
-            entries.splice(idx, 1);
-            renderTable();
-            updateStats();
-            setSyncStatus("ok");
-            updateSheetTs();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function updateSheetTs() {
-        if (!currentSheetId) return;
-        sbFetch("sheets?id=eq." + currentSheetId, {
-          method: "PATCH",
-          body: JSON.stringify({ updated_at: new Date().toISOString() }),
-        }).catch(function () {});
-      }
-      function clearAll() {
-        if (!entries.length || !currentSheetId) return;
-        if (!confirm("Delete all entries in this sheet?")) return;
-        setSyncStatus("syncing");
-        sbFetch("entries?sheet_id=eq." + currentSheetId, { method: "DELETE" })
-          .then(function () {
-            entries = [];
-            openGroups = {};
-            renderTable();
-            updateStats();
-            setSyncStatus("ok");
-            updateSheetTs();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      function openEdit(idx) {
-        editIdx = idx;
-        editEntryId = entries[idx].id;
-        document.getElementById("editName").value = entries[idx].name;
-        document.getElementById("editRemark").value = entries[idx].remark || "";
-        document.getElementById("editAmt").value = entries[idx].amount;
-        document.getElementById("editDate").value = entries[idx].date || "";
-        document.getElementById("editModal").classList.remove("hidden");
-        setTimeout(function () {
-          document.getElementById("editName").focus();
-        }, 100);
-      }
-      function closeEdit() {
-        document.getElementById("editModal").classList.add("hidden");
-        editIdx = -1;
-        editEntryId = null;
-      }
-      function saveEdit() {
-        if (editIdx < 0 || !editEntryId) return;
-        var name = document.getElementById("editName").value.trim();
-        var remark = document.getElementById("editRemark").value.trim();
-        var amount = parseFloat(document.getElementById("editAmt").value);
-        var date = document.getElementById("editDate").value;
-        if (!name || isNaN(amount) || amount <= 0 || isReserved(name)) return;
-        setSyncStatus("syncing");
-        sbFetch("entries?id=eq." + editEntryId, {
-          method: "PATCH",
-          body: JSON.stringify({
-            name: name,
-            remark: remark || null,
-            amount: amount,
-            date: date,
-          }),
-        })
-          .then(function () {
-            entries[editIdx] = Object.assign(entries[editIdx], {
-              name: name,
-              remark: remark || "",
-              amount: amount,
-              date: date,
-            });
-            closeEdit();
-            renderTable();
-            updateStats();
-            flashBar();
-            setSyncStatus("ok");
-            updateSheetTs();
-          })
-          .catch(function () {
-            setSyncStatus("error");
-          });
-      }
-      document
-        .getElementById("editModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeEdit();
-        });
-      document
-        .getElementById("editName")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") document.getElementById("editRemark").focus();
-        });
-      document
-        .getElementById("editRemark")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") document.getElementById("editAmt").focus();
-        });
-      document
-        .getElementById("editAmt")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") saveEdit();
-        });
-      document
-        .getElementById("newSheetModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeNewSheet();
-        });
-      document
-        .getElementById("newSheetName")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") createSheet();
-        });
-      function fmt(n) {
-        return (
-          "₹" +
-          Number(n).toLocaleString("en-IN", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-        );
-      }
-      function isoToDisplay(iso) {
-        if (!iso) return "—";
-        var p = iso.split("-");
-        return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
-      }
-      function flashBar() {
-        var b = document.getElementById("toastBar");
-        b.classList.remove("show");
-        void b.offsetWidth;
-        b.classList.add("show");
-        setTimeout(function () {
-          b.classList.remove("show");
-        }, 2200);
-      }
-      function highlight(text, q) {
-        if (!q) return text;
-        var idx = text.toLowerCase().indexOf(q.toLowerCase());
-        if (idx === -1) return text;
-        return (
-          text.slice(0, idx) +
-          '<span class="hl">' +
-          text.slice(idx, idx + q.length) +
-          "</span>" +
-          text.slice(idx + q.length)
-        );
-      }
-      function getKnownNames() {
-        var seen = {},
-          names = [];
-        entries.forEach(function (e) {
-          var k = e.name.toLowerCase().trim();
-          if (!seen[k]) {
-            seen[k] = true;
-            names.push(e.name);
-          }
-        });
-        return names;
-      }
-      function getLastAmt(name) {
-        var key = name.toLowerCase().trim();
-        for (var i = entries.length - 1; i >= 0; i--) {
-          if (entries[i].name.toLowerCase().trim() === key)
-            return entries[i].amount;
-        }
-        return null;
-      }
-      function updateStats() {
-        var vis = getVisibleEntries();
-        var tot = vis.reduce(function (s, e) {
-          return s + e.amount;
-        }, 0);
-        var isF = !!(dateFrom || dateTo || searchQuery);
-        document.getElementById("statCount").textContent =
-          getGroups(vis).length;
-        document.getElementById("statTotal").textContent = vis.length
-          ? fmt(tot)
-          : "₹0";
-        document.getElementById("statEntries").textContent =
-          vis.length + (isF ? " / " + entries.length : "");
-        document.getElementById("totalLabel").textContent = isF
-          ? "Visible Total"
-          : "Total";
-        document.getElementById("entriesLabel").textContent = isF
-          ? "Visible / All"
-          : "Entries";
-      }
-      function hideDropdown() {
-        document.getElementById("acDropdown").style.display = "none";
-        acIndex = -1;
-      }
-      function showDropdown(matches) {
-        var dd = document.getElementById("acDropdown");
-        if (!matches.length) {
-          hideDropdown();
-          return;
-        }
-        dd.innerHTML = matches
-          .map(function (name, i) {
-            var last = getLastAmt(name);
-            var safe = name.replace(/'/g, "\\'");
-            return (
-              '<div class="ac-item" data-name="' +
-              name +
-              '" onmousedown="pickName(\'' +
-              safe +
-              '\')"><span class="ac-item-name">' +
-              name +
-              "</span>" +
-              (last
-                ? '<span class="ac-item-meta">last: ' + fmt(last) + "</span>"
-                : "") +
-              "</div>" +
-              (i < matches.length - 1 ? '<div class="ac-sep"></div>' : "")
-            );
-          })
-          .join("");
-        dd.style.display = "block";
-        acIndex = -1;
-      }
-      function pickName(name) {
-        document.getElementById("nameInput").value = name;
-        var last = getLastAmt(name);
-        if (last) document.getElementById("amtInput").value = last;
-        hideDropdown();
-        document.getElementById("remarkInput").focus();
-      }
-      function highlightAcItem() {
-        document.querySelectorAll(".ac-item").forEach(function (el, i) {
-          el.classList.toggle("ac-active", i === acIndex);
-        });
-      }
-      var nameInput = document.getElementById("nameInput");
-      nameInput.addEventListener("input", function () {
-        var val = this.value.trim().toLowerCase();
-        if (!val) {
-          hideDropdown();
-          return;
-        }
-        var m = getKnownNames().filter(function (n) {
-          return n.toLowerCase().indexOf(val) === 0;
-        });
-        if (!m.length)
-          m = getKnownNames().filter(function (n) {
-            return n.toLowerCase().indexOf(val) !== -1;
-          });
-        showDropdown(m.slice(0, 6));
-      });
-      nameInput.addEventListener("keydown", function (e) {
-        var dd = document.getElementById("acDropdown");
-        var items = dd.querySelectorAll(".ac-item");
-        if (dd.style.display !== "none" && items.length) {
-          if (e.key === "ArrowDown") {
-            e.preventDefault();
-            acIndex = Math.min(acIndex + 1, items.length - 1);
-            highlightAcItem();
-            return;
-          }
-          if (e.key === "ArrowUp") {
-            e.preventDefault();
-            acIndex = Math.max(acIndex - 1, -1);
-            highlightAcItem();
-            return;
-          }
-          if (e.key === "Enter" && acIndex >= 0) {
-            e.preventDefault();
-            pickName(items[acIndex].getAttribute("data-name"));
-            return;
-          }
-          if (e.key === "Escape") {
-            hideDropdown();
-            return;
-          }
-        }
-        if (e.key === "Enter") document.getElementById("remarkInput").focus();
-      });
-      nameInput.addEventListener("blur", function () {
-        setTimeout(hideDropdown, 150);
-      });
-      document
-        .getElementById("amtInput")
-        .addEventListener("keydown", function (e) {
-          if (e.key === "Enter") addEntry();
-        });
-      function setView(v) {
-        view = v;
-        document
-          .getElementById("btnGrouped")
-          .classList.toggle("active", v === "grouped");
-        document
-          .getElementById("btnAll")
-          .classList.toggle("active", v === "all");
-        renderTable();
-      }
-      function toggleGroup(key) {
-        openGroups[key] = !openGroups[key];
-        renderTable();
-      }
-      var searchInput = document.getElementById("searchInput");
-      searchInput.addEventListener("input", function () {
-        searchQuery = this.value.trim();
-        document
-          .getElementById("searchClear")
-          .classList.toggle("visible", searchQuery.length > 0);
-        renderTable();
-        updateStats();
-        updateToolbarState();
-      });
-      function clearSearch() {
-        searchInput.value = "";
-        searchQuery = "";
-        document.getElementById("searchClear").classList.remove("visible");
-        renderTable();
-        updateStats();
-        updateToolbarState();
-        searchInput.focus();
-      }
-      function renderTable() {
-        var head = document.getElementById("tableHead"),
-          tb = document.getElementById("tableBody");
-        var src = getVisibleEntries();
-        if (!currentSheetId) {
-          head.innerHTML = "";
-          tb.innerHTML =
-            '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-txt">Create or select a sheet</div></div></td></tr>';
-          return;
-        }
-        if (!entries.length) {
-          head.innerHTML = "";
-          tb.innerHTML =
-            '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-txt">No entries yet</div></div></td></tr>';
-          return;
-        }
-        if (!src.length) {
-          head.innerHTML = "";
-          tb.innerHTML =
-            '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">' +
-            (searchQuery ? "🔍" : "📅") +
-            '</div><div class="empty-txt">' +
-            (searchQuery
-              ? 'No results for "' + searchQuery + '"'
-              : "No entries in this date range.") +
-            "</div></div></td></tr>";
-          return;
-        }
-        if (searchQuery || view === "all") {
-          head.innerHTML =
-            '<tr><th style="width:36px">#</th><th>Vendor</th><th style="width:100px">Remark</th><th style="width:110px">Amount</th><th style="width:90px">Date</th><th style="width:68px"></th></tr>';
-          tb.innerHTML = src
-            .map(function (e, ri) {
-              var i = entries.indexOf(e);
-              var rmk = e.remark
-                ? '<span class="remark-tag">' +
-                  highlight(e.remark, searchQuery) +
-                  "</span>"
-                : "";
-              return (
-                '<tr class="data-row row-new"><td><span class="badge">' +
-                (ri + 1) +
-                '</span></td><td style="font-weight:600;color:#d4cfff;">' +
-                highlight(e.name, searchQuery) +
-                rmk +
-                '</td><td style="color:#7a74a8;font-size:12px;">' +
-                (e.remark ? highlight(e.remark, searchQuery) : "") +
-                '</td><td class="amt-cell">' +
-                fmt(e.amount) +
-                '</td><td class="date-cell">' +
-                isoToDisplay(e.date) +
-                '</td><td><div class="action-btns"><button class="mod-btn" onclick="openEdit(' +
-                i +
-                ')">✏️</button><button class="del-btn" onclick="delEntry(\'' +
-                e.id +
-                "'," +
-                i +
-                ')">✕</button></div></td></tr>'
-              );
-            })
-            .join("");
-          return;
-        }
-        var groups = getGroups(src);
-        head.innerHTML =
-          '<tr><th style="width:34px"></th><th>Vendor</th><th>Total</th><th style="width:80px">Payments</th><th style="width:34px"></th></tr>';
-        var html = "";
-        groups.forEach(function (g) {
-          var key = g.name.toLowerCase().trim();
-          var isOpen = !!openGroups[key];
-          var safeKey = key.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
-          html +=
-            '<tr class="group-header row-new" onclick="toggleGroup(\'' +
-            safeKey +
-            "')\">";
-          html +=
-            '<td><span class="chevron ' +
-            (isOpen ? "open" : "") +
-            '">›</span></td>';
-          html +=
-            '<td><span class="group-name">' +
-            g.name +
-            (g.items.length > 1
-              ? '<span class="badge-new">' + g.items.length + "×</span>"
-              : "") +
-            "</span></td>";
-          html +=
-            '<td class="group-total">' +
-            fmt(g.total) +
-            '</td><td style="color:#5a5680;font-size:12px;">' +
-            g.items.length +
-            "</td><td></td></tr>";
-          if (isOpen) {
-            g.items.forEach(function (item) {
-              var rmkTag = item.remark
-                ? '<span class="remark-tag">' + item.remark + "</span>"
-                : "";
-              html +=
-                '<tr class="data-row sub-row row-new"><td></td><td style="color:#c8c4e8;">↳ ' +
-                isoToDisplay(item.date) +
-                rmkTag +
-                '</td><td class="sub-amt">' +
-                fmt(item.amount) +
-                '</td><td></td><td><div class="action-btns"><button class="mod-btn" onclick="event.stopPropagation();openEdit(' +
-                item.idx +
-                ')">✏️</button><button class="del-btn" onclick="event.stopPropagation();delEntry(\'' +
-                item.id +
-                "'," +
-                item.idx +
-                ')">✕</button></div></td></tr>';
-            });
-          }
-        });
-        tb.innerHTML = html;
-      }
+
+      /* ── Import Excel ── */
       function openImport() {
         if (!currentSheetId) {
           alert("Select a sheet first.");
@@ -4164,11 +3851,13 @@
             var rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
             var hRow = -1,
               nameCol = -1,
+              phoneCol = -1,
               remarkCol = -1,
               amtCol = -1,
               dateCol = -1;
             for (var r = 0; r < Math.min(8, rows.length); r++) {
               nameCol = -1;
+              phoneCol = -1;
               remarkCol = -1;
               amtCol = -1;
               dateCol = -1;
@@ -4179,6 +3868,8 @@
                   cell.indexOf("vendor") !== -1
                 )
                   nameCol = c;
+                if (cell === "phone" || cell === "mobile" || cell === "contact")
+                  phoneCol = c;
                 if (cell === "remark" || cell === "remarks") remarkCol = c;
                 if (cell.indexOf("amount") !== -1) amtCol = c;
                 if (cell.indexOf("date") !== -1) dateCol = c;
@@ -4199,6 +3890,7 @@
               var n = (row[nameCol] + "").trim();
               var a = parseFloat(row[amtCol]);
               if (!n || isNaN(a) || a <= 0 || isReserved(n)) continue;
+              var phone = phoneCol !== -1 ? (row[phoneCol] + "").trim() : "";
               var remark = remarkCol !== -1 ? (row[remarkCol] + "").trim() : "";
               var d = "";
               if (dateCol !== -1 && row[dateCol]) {
@@ -4222,6 +3914,7 @@
               toInsert.push({
                 sheet_id: currentSheetId,
                 name: n,
+                phone: phone || null,
                 remark: remark || null,
                 amount: a,
                 date: d,
@@ -4272,6 +3965,439 @@
           }
         };
         reader.readAsArrayBuffer(file);
+      }
+
+      /* ── Paytm ── */
+      function pickPaytmSheet(wb) {
+        var names = wb.SheetNames;
+        if (names.length === 1) return { name: names[0], reason: "only sheet" };
+        var txKw = [
+          "payment",
+          "transaction",
+          "passbook",
+          "history",
+          "statement",
+          "detail",
+          "ledger",
+          "pass book",
+        ];
+        for (var i = 0; i < names.length; i++) {
+          var nl = names[i].toLowerCase();
+          for (var k = 0; k < txKw.length; k++) {
+            if (nl.indexOf(txKw[k]) !== -1)
+              return {
+                name: names[i],
+                reason:
+                  'sheet name "' + names[i] + '" matches transaction keywords',
+              };
+          }
+        }
+        var sumKw = ["summary", "summ", "overview", "total"];
+        var nonSum = names.filter(function (n) {
+          var nl = n.toLowerCase();
+          return !sumKw.some(function (k) {
+            return nl.indexOf(k) !== -1;
+          });
+        });
+        if (nonSum.length > 0)
+          return {
+            name: nonSum[0],
+            reason: 'skipped summary sheet, using "' + nonSum[0] + '"',
+          };
+        var best = names[0],
+          bestRows = 0;
+        names.forEach(function (n) {
+          var ws = wb.Sheets[n];
+          var ref = ws["!ref"];
+          if (!ref) return;
+          var range = XLSX.utils.decode_range(ref);
+          var rows = range.e.r - range.s.r;
+          if (rows > bestRows) {
+            bestRows = rows;
+            best = n;
+          }
+        });
+        return { name: best, reason: 'most data rows: "' + best + '"' };
+      }
+      function parsePaytmAmount(raw) {
+        if (typeof raw === "number") {
+          return { value: Math.abs(raw), debit: raw < 0 };
+        }
+        var s = (raw + "")
+          .trim()
+          .replace(/[\u20B9\u00A0,\s]/g, "")
+          .replace(/Rs\.?/gi, "");
+        if (!s) return null;
+        var sign = 1;
+        if (s.charAt(0) === "-") {
+          sign = -1;
+          s = s.slice(1);
+        } else if (s.charAt(0) === "+") {
+          s = s.slice(1);
+        }
+        if (/dr$/i.test(s)) {
+          sign = -1;
+          s = s.replace(/dr$/i, "");
+        }
+        if (/cr$/i.test(s)) {
+          sign = 1;
+          s = s.replace(/cr$/i, "");
+        }
+        var n = parseFloat(s);
+        if (isNaN(n) || n === 0) return null;
+        return { value: Math.abs(n), debit: sign < 0 };
+      }
+      function parsePaytmDate(raw) {
+        if (!raw) return new Date().toISOString().slice(0, 10);
+        if (typeof raw === "number") {
+          var d = new Date(Math.round((raw - 25569) * 86400 * 1000));
+          return d.toISOString().slice(0, 10);
+        }
+        var s = (raw + "").trim();
+        var m = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
+        if (m)
+          return (
+            m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0")
+          );
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+        return new Date().toISOString().slice(0, 10);
+      }
+      function findColIdx(hdrs, kws) {
+        for (var i = 0; i < hdrs.length; i++) {
+          var h = (hdrs[i] + "").toLowerCase().trim();
+          for (var j = 0; j < kws.length; j++) {
+            if (h.indexOf(kws[j]) !== -1) return i;
+          }
+        }
+        return -1;
+      }
+      function openPaytm() {
+        if (!currentSheetId) {
+          alert("Select a sheet first.");
+          return;
+        }
+        resetPaytmStep();
+        document.getElementById("paytmModal").classList.remove("hidden");
+      }
+      function closePaytm() {
+        document.getElementById("paytmModal").classList.add("hidden");
+        document.getElementById("paytmFile").value = "";
+        paytmRows = [];
+      }
+      document
+        .getElementById("paytmModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closePaytm();
+        });
+      function resetPaytmStep() {
+        document.getElementById("paytmStep1").style.display = "block";
+        document.getElementById("paytmStep2").style.display = "none";
+        document.getElementById("paytmUploadResult").textContent = "";
+        document.getElementById("paytmFile").value = "";
+        document.getElementById("sheetDetectBadge").style.display = "none";
+        paytmRows = [];
+        paytmFilter = "all";
+        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
+          document.getElementById(id).classList.remove("on");
+        });
+        document.getElementById("fbAll").classList.add("on");
+      }
+      function handlePaytmUpload(input) {
+        var file = input.files[0];
+        if (!file) return;
+        var res = document.getElementById("paytmUploadResult");
+        res.className = "import-result";
+        res.textContent = "Reading file…";
+        document.getElementById("sheetDetectBadge").style.display = "none";
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            var wb = XLSX.read(ev.target.result, {
+              type: "array",
+              cellText: false,
+              cellDates: false,
+            });
+            var detected = pickPaytmSheet(wb);
+            var ws = wb.Sheets[detected.name];
+            document.getElementById("sheetDetectText").textContent =
+              'Using "' + detected.name + '" — ' + detected.reason;
+            document.getElementById("sheetDetectBadge").style.display = "block";
+            var rows = XLSX.utils.sheet_to_json(ws, {
+              header: 1,
+              defval: "",
+              raw: true,
+            });
+            var hRow = -1;
+            for (var r = 0; r < Math.min(20, rows.length); r++) {
+              var j = (rows[r] || []).join("|").toLowerCase();
+              if (
+                (j.indexOf("transaction details") !== -1 ||
+                  j.indexOf("description") !== -1 ||
+                  j.indexOf("particulars") !== -1) &&
+                j.indexOf("amount") !== -1
+              ) {
+                hRow = r;
+                break;
+              }
+              if (j.indexOf("amount") !== -1 && j.indexOf("date") !== -1) {
+                hRow = r;
+                break;
+              }
+            }
+            if (hRow === -1) {
+              var mx = 0;
+              for (var r2 = 0; r2 < Math.min(15, rows.length); r2++) {
+                var ct = rows[r2].filter(function (x) {
+                  return (x + "").trim() !== "";
+                }).length;
+                if (ct > mx) {
+                  mx = ct;
+                  hRow = r2;
+                }
+              }
+            }
+            var hdrs = rows[hRow] || [];
+            var cDate = findColIdx(hdrs, ["date"]);
+            var cDesc = findColIdx(hdrs, [
+              "transaction details",
+              "description",
+              "particulars",
+              "narration",
+            ]);
+            var cOther = findColIdx(hdrs, [
+              "other transaction",
+              "upi id",
+              "a/c no",
+              "account no",
+            ]);
+            var cAmt = findColIdx(hdrs, ["amount", "debit", "credit", "amt"]);
+            var cRemark = findColIdx(hdrs, [
+              "tags",
+              "tag",
+              "comment",
+              "category",
+              "remarks",
+              "remark",
+              "note",
+            ]);
+            if (cRemark === cDesc) cRemark = -1;
+            if (cAmt === -1) {
+              res.className = "import-result err";
+              res.textContent = "⚠ Could not find Amount column.";
+              return;
+            }
+            paytmRows = [];
+            for (var i = hRow + 1; i < rows.length; i++) {
+              var row = rows[i];
+              if (!row || row.join("").toString().trim() === "") continue;
+              var parsed = parsePaytmAmount(row[cAmt]);
+              if (!parsed) continue;
+              var desc =
+                cDesc !== -1 ? (row[cDesc] + "").trim() : "Transaction " + i;
+              if (!desc) desc = "Transaction " + i;
+              var remark = cRemark !== -1 ? (row[cRemark] + "").trim() : "";
+              paytmRows.push({
+                date:
+                  cDate !== -1
+                    ? parsePaytmDate(row[cDate])
+                    : new Date().toISOString().slice(0, 10),
+                desc: desc,
+                other: cOther !== -1 ? (row[cOther] + "").trim() : "",
+                amount: parsed.value,
+                debit: parsed.debit,
+                remark: remark,
+                selected: true,
+              });
+            }
+            if (!paytmRows.length) {
+              res.className = "import-result err";
+              res.textContent = "⚠ No valid transactions found.";
+              return;
+            }
+            res.textContent =
+              "✓ Found " +
+              paytmRows.length +
+              ' transactions in "' +
+              detected.name +
+              '"';
+            document.getElementById("paytmStep1").style.display = "none";
+            document.getElementById("paytmStep2").style.display = "block";
+            renderPaytmPreview();
+          } catch (err) {
+            res.className = "import-result err";
+            res.textContent = "Error: " + err.message;
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+      function filterPaytm(f) {
+        paytmFilter = f;
+        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
+          document.getElementById(id).classList.remove("on");
+        });
+        document
+          .getElementById(
+            f === "all" ? "fbAll" : f === "debit" ? "fbDebit" : "fbCredit",
+          )
+          .classList.add("on");
+        renderPaytmPreview();
+      }
+      function renderPaytmPreview() {
+        var tb = document.getElementById("previewBody");
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        document.getElementById("selCount").textContent =
+          paytmRows.filter(function (r) {
+            return r.selected;
+          }).length + " selected";
+        document.getElementById("previewInfo").textContent =
+          "Showing " + vis.length + " of " + paytmRows.length;
+        tb.innerHTML = vis
+          .map(function (r) {
+            var oi = paytmRows.indexOf(r);
+            var desc = r.desc.length > 36 ? r.desc.slice(0, 36) + "…" : r.desc;
+            var tt = r.debit
+              ? '<span style="color:#f08080;font-size:11px;font-weight:600;">↑ Debit</span>'
+              : '<span style="color:#4ecba0;font-size:11px;font-weight:600;">↓ Credit</span>';
+            var rmk = r.remark
+              ? '<span class="remark-tag">' + r.remark.slice(0, 18) + "</span>"
+              : '<span style="color:#3a3760;">—</span>';
+            return (
+              '<tr><td class="check-col"><input type="checkbox" ' +
+              (r.selected ? "checked" : "") +
+              ' onchange="paytmRows[' +
+              oi +
+              '].selected=this.checked;updateSelCount()" /></td><td>' +
+              isoToDisplay(r.date) +
+              '</td><td title="' +
+              r.desc +
+              '">' +
+              desc +
+              '</td><td style="font-weight:600;' +
+              (r.debit ? "color:#f08080" : "color:#4ecba0") +
+              ';">' +
+              fmt(r.amount) +
+              "</td><td>" +
+              tt +
+              "</td><td>" +
+              rmk +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        var allSel =
+          vis.length > 0 &&
+          vis.every(function (r) {
+            return r.selected;
+          });
+        document.getElementById("selectAll").checked = allSel;
+        document.getElementById("selectAll").indeterminate =
+          !allSel &&
+          vis.some(function (r) {
+            return r.selected;
+          });
+      }
+      function updateSelCount() {
+        document.getElementById("selCount").textContent =
+          paytmRows.filter(function (r) {
+            return r.selected;
+          }).length + " selected";
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        var as =
+          vis.length > 0 &&
+          vis.every(function (r) {
+            return r.selected;
+          });
+        document.getElementById("selectAll").checked = as;
+        document.getElementById("selectAll").indeterminate =
+          !as &&
+          vis.some(function (r) {
+            return r.selected;
+          });
+      }
+      function toggleSelectAll(cb) {
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        vis.forEach(function (r) {
+          r.selected = cb.checked;
+        });
+        renderPaytmPreview();
+      }
+      function importSelectedPaytm() {
+        var toImport = paytmRows.filter(function (r) {
+          return r.selected;
+        });
+        if (!toImport.length) {
+          alert("Select at least one.");
+          return;
+        }
+        var toInsert = toImport.map(function (r) {
+          return {
+            sheet_id: currentSheetId,
+            name: r.desc.slice(0, 120),
+            phone: null,
+            remark: r.remark || null,
+            amount: r.amount,
+            date: r.date,
+          };
+        });
+        var res = document.getElementById("paytmUploadResult");
+        document.getElementById("paytmStep2").style.display = "none";
+        document.getElementById("paytmStep1").style.display = "block";
+        res.className = "import-result";
+        res.textContent = "Saving…";
+        setSyncStatus("syncing");
+        var BATCH = 500,
+          batches = [],
+          allIns = [];
+        for (var b = 0; b < toInsert.length; b += BATCH)
+          batches.push(toInsert.slice(b, b + BATCH));
+        function nb(idx) {
+          if (idx >= batches.length) {
+            entries = entries.concat(allIns);
+            renderTable();
+            updateStats();
+            flashBar();
+            setSyncStatus("ok");
+            updateSheetTs();
+            res.textContent = "✓ Imported " + allIns.length + " transactions!";
+            paytmRows = [];
+            return;
+          }
+          sbFetch("entries", {
+            method: "POST",
+            body: JSON.stringify(batches[idx]),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (d) {
+              allIns = allIns.concat(Array.isArray(d) ? d : []);
+              nb(idx + 1);
+            })
+            .catch(function () {
+              res.className = "import-result err";
+              res.textContent = "Server error.";
+              setSyncStatus("error");
+            });
+        }
+        nb(0);
       }
     </script>
   </head>
