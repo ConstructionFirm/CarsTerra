@@ -1559,20 +1559,18 @@
         opacity: 0.45;
         cursor: not-allowed;
       }
-
-      /* Feature highlight box */
-      .feature-note {
-        background: rgba(76, 63, 206, 0.12);
-        border: 1px solid rgba(76, 63, 206, 0.3);
-        border-radius: 10px;
-        padding: 10px 14px;
-        margin-bottom: 12px;
+      /* Sheet detection info banner */
+      .sheet-detect-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(13, 168, 118, 0.12);
+        border: 1px solid rgba(13, 168, 118, 0.3);
+        border-radius: 8px;
+        padding: 6px 12px;
         font-size: 12px;
-        color: #a99cf7;
-        line-height: 1.6;
-      }
-      .feature-note strong {
-        color: #d4cfff;
+        color: #4ecba0;
+        margin-top: 8px;
       }
     </style>
 
@@ -1743,7 +1741,7 @@
             ><input
               id="remarkInput"
               type="text"
-              placeholder="e.g. Labour, Material…"
+              placeholder="e.g. Labour…"
               autocomplete="off"
               disabled
             />
@@ -1876,8 +1874,8 @@
             <div class="export-option-text">
               <div class="export-option-title">Per-vendor sheets</div>
               <div class="export-option-desc">
-                All Entries + Summary (with clickable hyperlinks) + one sheet
-                per vendor with ← Back to Summary button
+                All Entries + Summary (with hyperlinks) + one sheet per vendor
+                with ← Back button
               </div>
             </div>
           </div>
@@ -1887,7 +1885,7 @@
             <div class="export-option-text">
               <div class="export-option-title">Vendor sheets only</div>
               <div class="export-option-desc">
-                One sheet per vendor + ← Back to Summary button on each
+                One sheet per vendor with ← Back to Summary
               </div>
             </div>
           </div>
@@ -1898,24 +1896,20 @@
           >
             <strong>Vendors per file:</strong>
             <div class="split-row">
-              <span class="split-label">Split every</span>
-              <button
+              <span class="split-label">Split every</span
+              ><button
                 class="split-btn active"
                 id="split50"
                 onclick="setSplit(50)"
               >
-                50
-              </button>
-              <button class="split-btn" id="split100" onclick="setSplit(100)">
-                100
-              </button>
-              <button class="split-btn" id="split200" onclick="setSplit(200)">
-                200
-              </button>
-              <button class="split-btn" id="splitAll" onclick="setSplit(9999)">
-                All in one
-              </button>
-              <span
+                50</button
+              ><button class="split-btn" id="split100" onclick="setSplit(100)">
+                100</button
+              ><button class="split-btn" id="split200" onclick="setSplit(200)">
+                200</button
+              ><button class="split-btn" id="splitAll" onclick="setSplit(9999)">
+                All in one</button
+              ><span
                 class="split-label"
                 id="splitFilesNote"
                 style="color: #a99cf7"
@@ -1945,16 +1939,15 @@
             id="cancelExportBtn"
             onclick="closeExportModal()"
           >
-            Cancel
-          </button>
-          <button class="btn-dl" id="downloadBtn" onclick="doExport()">
+            Cancel</button
+          ><button class="btn-dl" id="downloadBtn" onclick="doExport()">
             ⬇ Download
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Other modals -->
+    <!-- New Sheet -->
     <div class="modal-overlay hidden" id="newSheetModal">
       <div class="modal">
         <div class="modal-title">
@@ -1977,6 +1970,7 @@
         </div>
       </div>
     </div>
+    <!-- Delete -->
     <div class="modal-overlay hidden" id="deleteModal">
       <div class="modal">
         <div class="modal-title">
@@ -2016,6 +2010,7 @@
         </div>
       </div>
     </div>
+    <!-- Edit -->
     <div class="modal-overlay hidden" id="editModal">
       <div class="modal">
         <div class="modal-title">
@@ -2027,15 +2022,11 @@
           ><input id="editName" type="text" autocomplete="off" />
         </div>
         <div class="modal-field">
-          <label
-            >Remark
-            <span style="color: #4a4670; font-weight: 400"
-              >(optional)</span
-            ></label
+          <label>Remark <span style="color: #4a4670">(optional)</span></label
           ><input
             id="editRemark"
             type="text"
-            placeholder="e.g. Labour, Material…"
+            placeholder="e.g. Labour…"
             autocomplete="off"
           />
         </div>
@@ -2052,6 +2043,7 @@
         </div>
       </div>
     </div>
+    <!-- Import -->
     <div class="modal-overlay hidden" id="importModal">
       <div class="modal">
         <div class="modal-title">
@@ -2081,6 +2073,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Paytm — updated info text -->
     <div class="modal-overlay hidden" id="paytmModal">
       <div class="modal wide">
         <div class="modal-title">
@@ -2090,18 +2084,23 @@
           >
             🔵
           </div>
-          Import Paytm Excel<span class="paytm-tag">Paytm Format</span>
+          Import Paytm Excel<span class="paytm-tag">Auto sheet detection</span>
         </div>
         <div id="paytmStep1">
           <p class="import-info">
-            Upload your Paytm Excel/CSV. Remarks stored separately — no
-            duplicate names.
+            Upload your Paytm Excel —
+            <strong style="color: #4ecba0">no need to rearrange sheets.</strong
+            ><br />
+            Automatically finds the transaction sheet (skips Summary). Works
+            with any sheet order.
           </p>
           <div
             class="import-zone paytm-zone"
             onclick="document.getElementById('paytmFile').click()"
           >
-            <span class="import-zone-icon">📂</span>Click to choose<input
+            <span class="import-zone-icon">📂</span>Click to choose your Paytm
+            Excel
+            <input
               type="file"
               id="paytmFile"
               accept=".xlsx,.xls,.csv"
@@ -2110,6 +2109,11 @@
             />
           </div>
           <p class="import-result" id="paytmUploadResult"></p>
+          <div id="sheetDetectBadge" style="display: none">
+            <div class="sheet-detect-badge">
+              ✓ <span id="sheetDetectText"></span>
+            </div>
+          </div>
         </div>
         <div id="paytmStep2" style="display: none">
           <div class="filter-row">
@@ -2278,12 +2282,481 @@
         });
       }
 
-      /* ══════════════════════════════════════════
-   EXCEL EXPORT — 3 improvements:
-   1. Vendor sheet: Name column between # and Remark
-   2. Summary: vendor name is a hyperlink to their sheet
-   3. Vendor sheet: "← Back to Summary" button in cell A1 area
-══════════════════════════════════════════ */
+      /* ══════════════════════════════
+   PAYTM SHEET AUTO-DETECTION
+   
+   Strategy (in priority order):
+   1. Sheet whose name contains "payment", "transaction", "passbook", "history", "statement"
+   2. Sheet whose name does NOT contain "summary"
+   3. The sheet with the most data rows
+   4. Falls back to first sheet
+   
+   This means "Passbook Payment History" is found immediately by rule 1,
+   and "Summary" is skipped by rule 2.
+══════════════════════════════ */
+      function pickPaytmSheet(wb) {
+        var names = wb.SheetNames;
+        if (names.length === 1) return { name: names[0], reason: "only sheet" };
+
+        /* Rule 1: name matches transaction keywords */
+        var txKeywords = [
+          "payment",
+          "transaction",
+          "passbook",
+          "history",
+          "statement",
+          "detail",
+          "ledger",
+          "pass book",
+        ];
+        for (var i = 0; i < names.length; i++) {
+          var nl = names[i].toLowerCase();
+          for (var k = 0; k < txKeywords.length; k++) {
+            if (nl.indexOf(txKeywords[k]) !== -1) {
+              return {
+                name: names[i],
+                reason:
+                  'sheet name "' + names[i] + '" matches transaction keywords',
+              };
+            }
+          }
+        }
+
+        /* Rule 2: first sheet that is NOT summary */
+        var summaryKeywords = ["summary", "summ", "overview", "total"];
+        var nonSummary = names.filter(function (n) {
+          var nl = n.toLowerCase();
+          return !summaryKeywords.some(function (k) {
+            return nl.indexOf(k) !== -1;
+          });
+        });
+        if (nonSummary.length > 0) {
+          return {
+            name: nonSummary[0],
+            reason: 'skipped summary sheet, using "' + nonSummary[0] + '"',
+          };
+        }
+
+        /* Rule 3: sheet with most rows of data */
+        var best = names[0],
+          bestRows = 0;
+        names.forEach(function (n) {
+          var ws = wb.Sheets[n];
+          var ref = ws["!ref"];
+          if (!ref) return;
+          var range = XLSX.utils.decode_range(ref);
+          var rows = range.e.r - range.s.r;
+          if (rows > bestRows) {
+            bestRows = rows;
+            best = n;
+          }
+        });
+        return { name: best, reason: 'most data rows: "' + best + '"' };
+      }
+
+      /* ── Paytm parsing helpers ── */
+      function parsePaytmAmount(raw) {
+        if (typeof raw === "number") {
+          return { value: Math.abs(raw), debit: raw < 0 };
+        }
+        var s = (raw + "")
+          .trim()
+          .replace(/[\u20B9\u00A0,\s]/g, "")
+          .replace(/Rs\.?/gi, "");
+        if (!s) return null;
+        var sign = 1;
+        if (s.charAt(0) === "-") {
+          sign = -1;
+          s = s.slice(1);
+        } else if (s.charAt(0) === "+") {
+          s = s.slice(1);
+        }
+        if (/dr$/i.test(s)) {
+          sign = -1;
+          s = s.replace(/dr$/i, "");
+        }
+        if (/cr$/i.test(s)) {
+          sign = 1;
+          s = s.replace(/cr$/i, "");
+        }
+        var n = parseFloat(s);
+        if (isNaN(n) || n === 0) return null;
+        return { value: Math.abs(n), debit: sign < 0 };
+      }
+      function parsePaytmDate(raw) {
+        if (!raw) return new Date().toISOString().slice(0, 10);
+        if (typeof raw === "number") {
+          var d = new Date(Math.round((raw - 25569) * 86400 * 1000));
+          return d.toISOString().slice(0, 10);
+        }
+        var s = (raw + "").trim();
+        var m = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
+        if (m)
+          return (
+            m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0")
+          );
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+        return new Date().toISOString().slice(0, 10);
+      }
+      function findColIdx(hdrs, kws) {
+        for (var i = 0; i < hdrs.length; i++) {
+          var h = (hdrs[i] + "").toLowerCase().trim();
+          for (var j = 0; j < kws.length; j++) {
+            if (h.indexOf(kws[j]) !== -1) return i;
+          }
+        }
+        return -1;
+      }
+
+      function openPaytm() {
+        if (!currentSheetId) {
+          alert("Select a sheet first.");
+          return;
+        }
+        resetPaytmStep();
+        document.getElementById("paytmModal").classList.remove("hidden");
+      }
+      function closePaytm() {
+        document.getElementById("paytmModal").classList.add("hidden");
+        document.getElementById("paytmFile").value = "";
+        paytmRows = [];
+      }
+      document
+        .getElementById("paytmModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closePaytm();
+        });
+      function resetPaytmStep() {
+        document.getElementById("paytmStep1").style.display = "block";
+        document.getElementById("paytmStep2").style.display = "none";
+        document.getElementById("paytmUploadResult").textContent = "";
+        document.getElementById("paytmFile").value = "";
+        document.getElementById("sheetDetectBadge").style.display = "none";
+        paytmRows = [];
+        paytmFilter = "all";
+        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
+          document.getElementById(id).classList.remove("on");
+        });
+        document.getElementById("fbAll").classList.add("on");
+      }
+
+      function handlePaytmUpload(input) {
+        var file = input.files[0];
+        if (!file) return;
+        var res = document.getElementById("paytmUploadResult");
+        res.className = "import-result";
+        res.textContent = "Reading file…";
+        document.getElementById("sheetDetectBadge").style.display = "none";
+
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            var wb = XLSX.read(ev.target.result, {
+              type: "array",
+              cellText: false,
+              cellDates: false,
+            });
+
+            /* ── Auto-detect the correct sheet ── */
+            var detected = pickPaytmSheet(wb);
+            var ws = wb.Sheets[detected.name];
+
+            /* Show which sheet was picked */
+            document.getElementById("sheetDetectText").textContent =
+              'Using sheet "' + detected.name + '" — ' + detected.reason;
+            document.getElementById("sheetDetectBadge").style.display = "block";
+
+            var rows = XLSX.utils.sheet_to_json(ws, {
+              header: 1,
+              defval: "",
+              raw: true,
+            });
+            var hRow = -1;
+            for (var r = 0; r < Math.min(20, rows.length); r++) {
+              var j = (rows[r] || []).join("|").toLowerCase();
+              if (
+                (j.indexOf("transaction details") !== -1 ||
+                  j.indexOf("description") !== -1 ||
+                  j.indexOf("particulars") !== -1) &&
+                j.indexOf("amount") !== -1
+              ) {
+                hRow = r;
+                break;
+              }
+              if (j.indexOf("amount") !== -1 && j.indexOf("date") !== -1) {
+                hRow = r;
+                break;
+              }
+            }
+            if (hRow === -1) {
+              /* fallback: row with most non-empty cells */
+              var mx = 0;
+              for (var r2 = 0; r2 < Math.min(15, rows.length); r2++) {
+                var ct = rows[r2].filter(function (x) {
+                  return (x + "").trim() !== "";
+                }).length;
+                if (ct > mx) {
+                  mx = ct;
+                  hRow = r2;
+                }
+              }
+            }
+
+            var hdrs = rows[hRow] || [];
+            var cDate = findColIdx(hdrs, ["date"]);
+            var cDesc = findColIdx(hdrs, [
+              "transaction details",
+              "description",
+              "particulars",
+              "narration",
+              "remarks",
+              "remark",
+              "note",
+            ]);
+            var cOther = findColIdx(hdrs, [
+              "other transaction",
+              "upi id",
+              "a/c no",
+              "account no",
+            ]);
+            var cAmt = findColIdx(hdrs, ["amount", "debit", "credit", "amt"]);
+            var cRemark = findColIdx(hdrs, [
+              "tags",
+              "tag",
+              "comment",
+              "category",
+              "remarks",
+              "remark",
+              "note",
+            ]);
+
+            /* if cDesc and cRemark resolved to same col, unset remark */
+            if (cRemark === cDesc) cRemark = -1;
+
+            if (cAmt === -1) {
+              res.className = "import-result err";
+              res.textContent =
+                '⚠ Could not find Amount column in "' + detected.name + '".';
+              return;
+            }
+
+            paytmRows = [];
+            for (var i = hRow + 1; i < rows.length; i++) {
+              var row = rows[i];
+              if (!row || row.join("").toString().trim() === "") continue;
+              var parsed = parsePaytmAmount(row[cAmt]);
+              if (!parsed) continue;
+              var desc =
+                cDesc !== -1 ? (row[cDesc] + "").trim() : "Transaction " + i;
+              if (!desc) desc = "Transaction " + i;
+              var remark = cRemark !== -1 ? (row[cRemark] + "").trim() : "";
+              paytmRows.push({
+                date:
+                  cDate !== -1
+                    ? parsePaytmDate(row[cDate])
+                    : new Date().toISOString().slice(0, 10),
+                desc: desc,
+                other: cOther !== -1 ? (row[cOther] + "").trim() : "",
+                amount: parsed.value,
+                debit: parsed.debit,
+                remark: remark,
+                selected: true,
+              });
+            }
+
+            if (!paytmRows.length) {
+              res.className = "import-result err";
+              res.textContent =
+                '⚠ No valid transactions found in "' + detected.name + '".';
+              return;
+            }
+            res.textContent =
+              "✓ Found " +
+              paytmRows.length +
+              ' transactions in "' +
+              detected.name +
+              '"';
+            document.getElementById("paytmStep1").style.display = "none";
+            document.getElementById("paytmStep2").style.display = "block";
+            renderPaytmPreview();
+          } catch (err) {
+            res.className = "import-result err";
+            res.textContent = "Error: " + err.message;
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      function filterPaytm(f) {
+        paytmFilter = f;
+        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
+          document.getElementById(id).classList.remove("on");
+        });
+        document
+          .getElementById(
+            f === "all" ? "fbAll" : f === "debit" ? "fbDebit" : "fbCredit",
+          )
+          .classList.add("on");
+        renderPaytmPreview();
+      }
+      function renderPaytmPreview() {
+        var tb = document.getElementById("previewBody");
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        document.getElementById("selCount").textContent =
+          paytmRows.filter(function (r) {
+            return r.selected;
+          }).length + " selected";
+        document.getElementById("previewInfo").textContent =
+          "Showing " + vis.length + " of " + paytmRows.length;
+        tb.innerHTML = vis
+          .map(function (r) {
+            var oi = paytmRows.indexOf(r);
+            var desc = r.desc.length > 36 ? r.desc.slice(0, 36) + "…" : r.desc;
+            var tt = r.debit
+              ? '<span style="color:#f08080;font-size:11px;font-weight:600;">↑ Debit</span>'
+              : '<span style="color:#4ecba0;font-size:11px;font-weight:600;">↓ Credit</span>';
+            var rmk = r.remark
+              ? '<span class="remark-tag">' + r.remark.slice(0, 18) + "</span>"
+              : '<span style="color:#3a3760;">—</span>';
+            return (
+              '<tr><td class="check-col"><input type="checkbox" ' +
+              (r.selected ? "checked" : "") +
+              ' onchange="paytmRows[' +
+              oi +
+              '].selected=this.checked;updateSelCount()" /></td><td>' +
+              isoToDisplay(r.date) +
+              '</td><td title="' +
+              r.desc +
+              '">' +
+              desc +
+              '</td><td style="font-weight:600;' +
+              (r.debit ? "color:#f08080" : "color:#4ecba0") +
+              ';">' +
+              fmt(r.amount) +
+              "</td><td>" +
+              tt +
+              "</td><td>" +
+              rmk +
+              "</td></tr>"
+            );
+          })
+          .join("");
+        var allSel =
+          vis.length > 0 &&
+          vis.every(function (r) {
+            return r.selected;
+          });
+        document.getElementById("selectAll").checked = allSel;
+        document.getElementById("selectAll").indeterminate =
+          !allSel &&
+          vis.some(function (r) {
+            return r.selected;
+          });
+      }
+      function updateSelCount() {
+        document.getElementById("selCount").textContent =
+          paytmRows.filter(function (r) {
+            return r.selected;
+          }).length + " selected";
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        var as =
+          vis.length > 0 &&
+          vis.every(function (r) {
+            return r.selected;
+          });
+        document.getElementById("selectAll").checked = as;
+        document.getElementById("selectAll").indeterminate =
+          !as &&
+          vis.some(function (r) {
+            return r.selected;
+          });
+      }
+      function toggleSelectAll(cb) {
+        var vis = paytmRows.filter(function (r) {
+          return (
+            paytmFilter === "all" ||
+            (paytmFilter === "debit" && r.debit) ||
+            (paytmFilter === "credit" && !r.debit)
+          );
+        });
+        vis.forEach(function (r) {
+          r.selected = cb.checked;
+        });
+        renderPaytmPreview();
+      }
+      function importSelectedPaytm() {
+        var toImport = paytmRows.filter(function (r) {
+          return r.selected;
+        });
+        if (!toImport.length) {
+          alert("Select at least one.");
+          return;
+        }
+        var toInsert = toImport.map(function (r) {
+          return {
+            sheet_id: currentSheetId,
+            name: r.desc.slice(0, 120),
+            remark: r.remark || null,
+            amount: r.amount,
+            date: r.date,
+          };
+        });
+        var res = document.getElementById("paytmUploadResult");
+        document.getElementById("paytmStep2").style.display = "none";
+        document.getElementById("paytmStep1").style.display = "block";
+        res.className = "import-result";
+        res.textContent = "Saving…";
+        setSyncStatus("syncing");
+        var BATCH = 500,
+          batches = [],
+          allIns = [];
+        for (var b = 0; b < toInsert.length; b += BATCH)
+          batches.push(toInsert.slice(b, b + BATCH));
+        function nb(idx) {
+          if (idx >= batches.length) {
+            entries = entries.concat(allIns);
+            renderTable();
+            updateStats();
+            flashBar();
+            setSyncStatus("ok");
+            updateSheetTs();
+            res.textContent = "✓ Imported " + allIns.length + " transactions!";
+            paytmRows = [];
+            return;
+          }
+          sbFetch("entries", {
+            method: "POST",
+            body: JSON.stringify(batches[idx]),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (d) {
+              allIns = allIns.concat(Array.isArray(d) ? d : []);
+              nb(idx + 1);
+            })
+            .catch(function () {
+              res.className = "import-result err";
+              res.textContent = "Server error.";
+              setSyncStatus("error");
+            });
+        }
+        nb(0);
+      }
+
+      /* ── Export ── */
       function sanitizeName(raw) {
         return (
           (raw + "")
@@ -2337,7 +2810,6 @@
         if (map[n]) document.getElementById(map[n]).classList.add("active");
         updateExportPreview();
       }
-
       function openExportModal() {
         var src = getVisibleEntries();
         if (!src.length) {
@@ -2423,8 +2895,6 @@
         }
         pl.innerHTML = chips;
       }
-
-      /* ── Sheet builders ── */
       function makeAllEntriesSheet(data, title, suffix) {
         var rows = [
           [title + suffix],
@@ -2469,21 +2939,16 @@
         ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 4 } }];
         return ws;
       }
-
-      /* Summary with hyperlinks to each vendor sheet */
-      function makeSummarySheet(data, title, suffix, groups, nameRegistry) {
+      function makeSummarySheet(data, title, suffix, groups, lookupFn) {
         var rows = [
           [title + " — Summary" + suffix],
           [],
           ["Vendor", "Payments", "Total Amount (INR)"],
         ];
-        var linkRows = []; /* track which rows get hyperlinks */
+        var linkRows = [];
         groups.forEach(function (g, gi) {
           rows.push([g.name, g.items.length, g.total]);
-          linkRows.push({
-            row: 3 + gi,
-            name: g.name,
-          }); /* row index 0-based: header=0,blank=1,cols=2, data starts at 3 */
+          linkRows.push({ row: 3 + gi, name: g.name });
         });
         rows.push([]);
         rows.push([
@@ -2496,33 +2961,19 @@
         var ws = XLSX.utils.aoa_to_sheet(rows);
         ws["!cols"] = [{ wch: 32 }, { wch: 12 }, { wch: 20 }];
         ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }];
-        /* Add hyperlinks to vendor name cells — col A (index 0), rows starting at 3 */
         linkRows.forEach(function (lr) {
-          var cellAddr = XLSX.utils.encode_cell({ r: lr.row, c: 0 });
-          var sheetName = nameRegistry(lr.name);
-          if (!ws[cellAddr]) return;
-          ws[cellAddr].l = { Target: "#'" + sheetName + "'!A1" };
-          /* Style as hyperlink-like (blue underline) using cell formula trick */
-          ws[cellAddr].s = {
-            font: { color: { rgb: "0563C1" }, underline: true },
-          };
+          var ca = XLSX.utils.encode_cell({ r: lr.row, c: 0 });
+          var sn = lookupFn(lr.name);
+          if (!ws[ca]) return;
+          ws[ca].l = { Target: "#'" + sn + "'!A1" };
+          ws[ca].s = { font: { color: { rgb: "0563C1" }, underline: true } };
         });
         return ws;
       }
-
-      /* Vendor sheet: Name column added + "← Back to Summary" in top-right area */
       function makeVendorSheet(vendorName, items, summarySheetName) {
         var total = items.reduce(function (s, e) {
           return s + e.amount;
         }, 0);
-        /* Row layout:
-     Row 0 (A1): Vendor name (merged A1:D1)
-     Row 1 (A2): Total summary line
-     Row 2 (A3): Back to summary link in E2 — right side
-     Row 3: blank
-     Row 4: headers: # | Name | Remark | Amount | Date
-     Row 5+: data
-  */
         var rows = [
           [vendorName, "", "", "", ""],
           [
@@ -2535,7 +2986,7 @@
             "",
             "",
           ],
-          ["", "", "", "", "← Back to Summary"] /* back button in col E */,
+          ["", "", "", "", "← Back to Summary"],
           [],
           ["#", "Name / Vendor", "Remark", "Amount (INR)", "Date"],
         ];
@@ -2550,7 +3001,6 @@
         });
         rows.push([]);
         rows.push(["", "", "Total", total, ""]);
-
         var ws = XLSX.utils.aoa_to_sheet(rows);
         ws["!cols"] = [
           { wch: 5 },
@@ -2560,25 +3010,18 @@
           { wch: 18 },
         ];
         ws["!merges"] = [
-          {
-            s: { r: 0, c: 0 },
-            e: { r: 0, c: 4 },
-          } /* vendor name spans A1:E1 */,
-          { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } } /* total line spans A2:E2 */,
+          { s: { r: 0, c: 0 }, e: { r: 0, c: 4 } },
+          { s: { r: 1, c: 0 }, e: { r: 1, c: 4 } },
         ];
-
-        /* "← Back to Summary" hyperlink in E3 */
-        var backCell = XLSX.utils.encode_cell({ r: 2, c: 4 });
-        if (ws[backCell]) {
-          ws[backCell].l = { Target: "#'" + summarySheetName + "'!A1" };
-          ws[backCell].s = {
+        var bc = XLSX.utils.encode_cell({ r: 2, c: 4 });
+        if (ws[bc]) {
+          ws[bc].l = { Target: "#'" + summarySheetName + "'!A1" };
+          ws[bc].s = {
             font: { color: { rgb: "0563C1" }, underline: true, bold: true },
           };
         }
-
         return ws;
       }
-
       async function doExport() {
         if (exportRunning) return;
         var src = getVisibleEntries();
@@ -2590,7 +3033,6 @@
           showToast("Excel library not loaded.");
           return;
         }
-
         exportRunning = true;
         document.getElementById("downloadBtn").disabled = true;
         document.getElementById("cancelExportBtn").disabled = true;
@@ -2598,7 +3040,6 @@
         document.getElementById("progressWrap").classList.add("show");
         setProgress(0, "Starting…", "");
         await yieldToUI(30);
-
         try {
           var title =
             document.getElementById("sheetTitle").value.trim() ||
@@ -2614,7 +3055,6 @@
               ")";
           var groups = getGroups(src);
           var SUMMARY_SHEET_NAME = "Summary by Vendor";
-
           if (exportOpt === 1) {
             var wb = XLSX.utils.book_new();
             var un = makeNameReg();
@@ -2654,29 +3094,22 @@
             var totalBatches = batches.length,
               totalGroups = groups.length,
               doneGroups = 0;
-
             for (var bi = 0; bi < totalBatches; bi++) {
               var batch = batches[bi];
               var wb2 = XLSX.utils.book_new();
-              var un2 = makeNameReg(); /* fresh registry per file */
+              var un2 = makeNameReg();
               var fileLabel =
                 totalBatches > 1
                   ? " (Part " + (bi + 1) + " of " + totalBatches + ")"
                   : "";
               var summaryName = un2(SUMMARY_SHEET_NAME);
-
-              /* Build name registry first pass to know sheet names for hyperlinks */
               var vendorSheetNames = {};
               batch.forEach(function (g) {
                 vendorSheetNames[g.name] = un2(g.name);
               });
-
-              /* Reset registry for actual sheet building (un2 already has names registered) */
-              /* We need a lookup function for summary hyperlinks */
               function lookupVendorSheet(name) {
                 return vendorSheetNames[name] || sanitizeName(name);
               }
-
               if (exportOpt === 2) {
                 setProgress(
                   Math.round((doneGroups / totalGroups) * 80),
@@ -2701,7 +3134,6 @@
                   summaryName,
                 );
               }
-
               for (var gi = 0; gi < batch.length; gi++) {
                 XLSX.utils.book_append_sheet(
                   wb2,
@@ -2762,7 +3194,6 @@
               }
             }
           }
-
           exportRunning = false;
           document.getElementById("exportModal").classList.add("hidden");
           flashBar();
@@ -2789,7 +3220,7 @@
         }
       }
 
-      /* ── rest of app ── */
+      /* ── Copy ── */
       function copyVisible() {
         var src = getVisibleEntries();
         if (!src.length) {
@@ -2839,6 +3270,8 @@
             showToast("⚠ Clipboard unavailable.");
           });
       }
+
+      /* ── Helpers ── */
       function showToast(msg) {
         var t = document.getElementById("toastNotify");
         t.textContent = msg;
@@ -3839,371 +4272,6 @@
           }
         };
         reader.readAsArrayBuffer(file);
-      }
-      function openPaytm() {
-        if (!currentSheetId) {
-          alert("Select a sheet first.");
-          return;
-        }
-        resetPaytmStep();
-        document.getElementById("paytmModal").classList.remove("hidden");
-      }
-      function closePaytm() {
-        document.getElementById("paytmModal").classList.add("hidden");
-        document.getElementById("paytmFile").value = "";
-        paytmRows = [];
-      }
-      document
-        .getElementById("paytmModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closePaytm();
-        });
-      function resetPaytmStep() {
-        document.getElementById("paytmStep1").style.display = "block";
-        document.getElementById("paytmStep2").style.display = "none";
-        document.getElementById("paytmUploadResult").textContent = "";
-        document.getElementById("paytmFile").value = "";
-        paytmRows = [];
-        paytmFilter = "all";
-        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
-          document.getElementById(id).classList.remove("on");
-        });
-        document.getElementById("fbAll").classList.add("on");
-      }
-      function parsePaytmAmount(raw) {
-        if (typeof raw === "number") {
-          return { value: Math.abs(raw), debit: raw < 0 };
-        }
-        var s = (raw + "")
-          .trim()
-          .replace(/[\u20B9\u00A0,\s]/g, "")
-          .replace(/Rs\.?/gi, "");
-        if (!s) return null;
-        var sign = 1;
-        if (s.charAt(0) === "-") {
-          sign = -1;
-          s = s.slice(1);
-        } else if (s.charAt(0) === "+") {
-          s = s.slice(1);
-        }
-        if (/dr$/i.test(s)) {
-          sign = -1;
-          s = s.replace(/dr$/i, "");
-        }
-        if (/cr$/i.test(s)) {
-          sign = 1;
-          s = s.replace(/cr$/i, "");
-        }
-        var n = parseFloat(s);
-        if (isNaN(n) || n === 0) return null;
-        return { value: Math.abs(n), debit: sign < 0 };
-      }
-      function parsePaytmDate(raw) {
-        if (!raw) return new Date().toISOString().slice(0, 10);
-        if (typeof raw === "number") {
-          var d = new Date(Math.round((raw - 25569) * 86400 * 1000));
-          return d.toISOString().slice(0, 10);
-        }
-        var s = (raw + "").trim();
-        var m = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})/);
-        if (m)
-          return (
-            m[3] + "-" + m[2].padStart(2, "0") + "-" + m[1].padStart(2, "0")
-          );
-        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-        return new Date().toISOString().slice(0, 10);
-      }
-      function findColIdx(hdrs, kws) {
-        for (var i = 0; i < hdrs.length; i++) {
-          var h = (hdrs[i] + "").toLowerCase().trim();
-          for (var j = 0; j < kws.length; j++) {
-            if (h.indexOf(kws[j]) !== -1) return i;
-          }
-        }
-        return -1;
-      }
-      function handlePaytmUpload(input) {
-        var file = input.files[0];
-        if (!file) return;
-        var res = document.getElementById("paytmUploadResult");
-        res.className = "import-result";
-        res.textContent = "Reading…";
-        var reader = new FileReader();
-        reader.onload = function (ev) {
-          try {
-            var wb = XLSX.read(ev.target.result, {
-              type: "array",
-              cellText: false,
-              cellDates: false,
-            });
-            var ws = wb.Sheets[wb.SheetNames[0]];
-            var rows = XLSX.utils.sheet_to_json(ws, {
-              header: 1,
-              defval: "",
-              raw: true,
-            });
-            var hRow = -1;
-            for (var r = 0; r < Math.min(20, rows.length); r++) {
-              var j = (rows[r] || []).join("|").toLowerCase();
-              if (
-                (j.indexOf("transaction details") !== -1 ||
-                  j.indexOf("description") !== -1) &&
-                j.indexOf("amount") !== -1
-              ) {
-                hRow = r;
-                break;
-              }
-              if (j.indexOf("amount") !== -1 && j.indexOf("date") !== -1) {
-                hRow = r;
-                break;
-              }
-            }
-            if (hRow === -1) {
-              var mx = 0;
-              for (var r2 = 0; r2 < Math.min(15, rows.length); r2++) {
-                var ct = rows[r2].filter(function (x) {
-                  return (x + "").trim() !== "";
-                }).length;
-                if (ct > mx) {
-                  mx = ct;
-                  hRow = r2;
-                }
-              }
-            }
-            var hdrs = rows[hRow] || [];
-            var cDate = findColIdx(hdrs, ["date"]),
-              cDesc = findColIdx(hdrs, [
-                "transaction details",
-                "description",
-                "particulars",
-                "narration",
-              ]);
-            var cOther = findColIdx(hdrs, [
-              "other transaction",
-              "upi id",
-              "a/c no",
-              "account no",
-            ]);
-            var cAmt = findColIdx(hdrs, ["amount", "debit", "credit", "amt"]);
-            var cRemark = findColIdx(hdrs, [
-              "remarks",
-              "remark",
-              "note",
-              "tags",
-              "tag",
-              "comment",
-            ]);
-            if (cAmt === -1) {
-              res.className = "import-result err";
-              res.textContent = "⚠ Could not find Amount column.";
-              return;
-            }
-            paytmRows = [];
-            for (var i = hRow + 1; i < rows.length; i++) {
-              var row = rows[i];
-              if (!row || row.join("").toString().trim() === "") continue;
-              var parsed = parsePaytmAmount(cAmt !== -1 ? row[cAmt] : "");
-              if (!parsed) continue;
-              var desc =
-                cDesc !== -1 ? (row[cDesc] + "").trim() : "Transaction " + i;
-              if (!desc) desc = "Transaction " + i;
-              var remark = cRemark !== -1 ? (row[cRemark] + "").trim() : "";
-              paytmRows.push({
-                date:
-                  cDate !== -1
-                    ? parsePaytmDate(row[cDate])
-                    : new Date().toISOString().slice(0, 10),
-                desc: desc,
-                other: cOther !== -1 ? (row[cOther] + "").trim() : "",
-                amount: parsed.value,
-                debit: parsed.debit,
-                remark: remark,
-                selected: true,
-              });
-            }
-            if (!paytmRows.length) {
-              res.className = "import-result err";
-              res.textContent = "⚠ No valid transactions found.";
-              return;
-            }
-            res.textContent = "✓ Found " + paytmRows.length + " transactions.";
-            document.getElementById("paytmStep1").style.display = "none";
-            document.getElementById("paytmStep2").style.display = "block";
-            renderPaytmPreview();
-          } catch (err) {
-            res.className = "import-result err";
-            res.textContent = "Error: " + err.message;
-          }
-        };
-        reader.readAsArrayBuffer(file);
-      }
-      function filterPaytm(f) {
-        paytmFilter = f;
-        ["fbAll", "fbDebit", "fbCredit"].forEach(function (id) {
-          document.getElementById(id).classList.remove("on");
-        });
-        document
-          .getElementById(
-            f === "all" ? "fbAll" : f === "debit" ? "fbDebit" : "fbCredit",
-          )
-          .classList.add("on");
-        renderPaytmPreview();
-      }
-      function renderPaytmPreview() {
-        var tb = document.getElementById("previewBody");
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
-        });
-        document.getElementById("selCount").textContent =
-          paytmRows.filter(function (r) {
-            return r.selected;
-          }).length + " selected";
-        document.getElementById("previewInfo").textContent =
-          "Showing " + vis.length + " of " + paytmRows.length;
-        tb.innerHTML = vis
-          .map(function (r) {
-            var oi = paytmRows.indexOf(r);
-            var desc = r.desc.length > 36 ? r.desc.slice(0, 36) + "…" : r.desc;
-            var tt = r.debit
-              ? '<span style="color:#f08080;font-size:11px;font-weight:600;">↑ Debit</span>'
-              : '<span style="color:#4ecba0;font-size:11px;font-weight:600;">↓ Credit</span>';
-            var rmk = r.remark
-              ? '<span class="remark-tag">' + r.remark.slice(0, 18) + "</span>"
-              : '<span style="color:#3a3760;">—</span>';
-            return (
-              '<tr><td class="check-col"><input type="checkbox" ' +
-              (r.selected ? "checked" : "") +
-              ' onchange="paytmRows[' +
-              oi +
-              '].selected=this.checked;updateSelCount()" /></td><td>' +
-              isoToDisplay(r.date) +
-              '</td><td title="' +
-              r.desc +
-              '">' +
-              desc +
-              '</td><td style="font-weight:600;' +
-              (r.debit ? "color:#f08080" : "color:#4ecba0") +
-              ';">' +
-              fmt(r.amount) +
-              "</td><td>" +
-              tt +
-              "</td><td>" +
-              rmk +
-              "</td></tr>"
-            );
-          })
-          .join("");
-        var allSel =
-          vis.length > 0 &&
-          vis.every(function (r) {
-            return r.selected;
-          });
-        document.getElementById("selectAll").checked = allSel;
-        document.getElementById("selectAll").indeterminate =
-          !allSel &&
-          vis.some(function (r) {
-            return r.selected;
-          });
-      }
-      function updateSelCount() {
-        document.getElementById("selCount").textContent =
-          paytmRows.filter(function (r) {
-            return r.selected;
-          }).length + " selected";
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
-        });
-        var as =
-          vis.length > 0 &&
-          vis.every(function (r) {
-            return r.selected;
-          });
-        document.getElementById("selectAll").checked = as;
-        document.getElementById("selectAll").indeterminate =
-          !as &&
-          vis.some(function (r) {
-            return r.selected;
-          });
-      }
-      function toggleSelectAll(cb) {
-        var vis = paytmRows.filter(function (r) {
-          return (
-            paytmFilter === "all" ||
-            (paytmFilter === "debit" && r.debit) ||
-            (paytmFilter === "credit" && !r.debit)
-          );
-        });
-        vis.forEach(function (r) {
-          r.selected = cb.checked;
-        });
-        renderPaytmPreview();
-      }
-      function importSelectedPaytm() {
-        var toImport = paytmRows.filter(function (r) {
-          return r.selected;
-        });
-        if (!toImport.length) {
-          alert("Select at least one.");
-          return;
-        }
-        var toInsert = toImport.map(function (r) {
-          return {
-            sheet_id: currentSheetId,
-            name: r.desc.slice(0, 120),
-            remark: r.remark || null,
-            amount: r.amount,
-            date: r.date,
-          };
-        });
-        var res = document.getElementById("paytmUploadResult");
-        document.getElementById("paytmStep2").style.display = "none";
-        document.getElementById("paytmStep1").style.display = "block";
-        res.className = "import-result";
-        res.textContent = "Saving…";
-        setSyncStatus("syncing");
-        var BATCH = 500,
-          batches = [],
-          allIns = [];
-        for (var b = 0; b < toInsert.length; b += BATCH)
-          batches.push(toInsert.slice(b, b + BATCH));
-        function nb(idx) {
-          if (idx >= batches.length) {
-            entries = entries.concat(allIns);
-            renderTable();
-            updateStats();
-            flashBar();
-            setSyncStatus("ok");
-            updateSheetTs();
-            res.textContent = "✓ Imported " + allIns.length + " transactions!";
-            paytmRows = [];
-            return;
-          }
-          sbFetch("entries", {
-            method: "POST",
-            body: JSON.stringify(batches[idx]),
-          })
-            .then(function (r) {
-              return r.json();
-            })
-            .then(function (d) {
-              allIns = allIns.concat(Array.isArray(d) ? d : []);
-              nb(idx + 1);
-            })
-            .catch(function () {
-              res.className = "import-result err";
-              res.textContent = "Server error.";
-              setSyncStatus("error");
-            });
-        }
-        nb(0);
       }
     </script>
   </head>
